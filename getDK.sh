@@ -26,7 +26,7 @@ PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln stednavne -skipfailures -preserve
 
 echo "Creating indeces"
 # Create indexes
-psql osm < indexes.sql
+psql osm < sql/indexes.sql
 
 
 
