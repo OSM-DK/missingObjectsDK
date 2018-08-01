@@ -1,5 +1,5 @@
 select way, tags
-from line r
+from osm_line r
 where name is not null
  and name <> ''
  and defined(tags, 'highway')

@@ -37,7 +37,7 @@ and not exists (select 1
                                                   'viewpoint',
                                                   'zoo'
                                                  )
-                       OR p.tags -> 'historic' IN ('battlefield', 'canon', 'castle', 'fort', 'memorial', 'monument', 'pillory', 'rune_stone', 'citywalls', 'castle_wall'
+                       OR p.tags -> 'historic' IN ('battlefield', 'canon', 'castle', 'fort', 'memorial', 'monument', 'pillory', 'rune_stone', 'citywalls', 'castle_wall')
                        OR p.tags -> 'man_made' IN ('tower', 'obelisk')
                        OR p.tags -> 'barrier'  IN ('city_wall')
                        OR p.tags -> 'building' IN ('conservatory', 'greenhouse')
@@ -57,7 +57,7 @@ and not exists (select 1
                                                   'viewpoint',
                                                   'zoo'
                                                  )
-                       OR p.tags -> 'historic' IN ('battlefield', 'canon', 'castle', 'fort', 'memorial', 'monument', 'pillory', 'rune_stone', 'citywalls', 'castle_wall'
+                       OR p.tags -> 'historic' IN ('battlefield', 'canon', 'castle', 'fort', 'memorial', 'monument', 'pillory', 'rune_stone', 'citywalls', 'castle_wall')
                        OR p.tags -> 'man_made' IN ('tower', 'obelisk')
                        OR p.tags -> 'barrier'  IN ('city_wall')
                        OR p.tags -> 'building' IN ('conservatory', 'greenhouse')
