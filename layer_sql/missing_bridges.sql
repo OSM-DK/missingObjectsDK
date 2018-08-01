@@ -6,14 +6,14 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where p.bridge is not null and p.bridge <> ''
+		where defined(p.tags, 'bridge')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
 and not exists (select 1
-                from osm_roads p
-		where p.bridge is not null and p.bridge <> ''
+                from osm_line p
+		where defined(p.tags, 'bridge')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )
 
 
 UNION
@@ -26,13 +26,13 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where p.tunnel is not null and p.tunnel <> ''
+		where defined(p.tags, 'tunnel')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
 and not exists (select 1
-                from osm_roads p
-		where p.tunnel is not null and p.tunnel <> ''
+                from osm_line p
+		where defined(p.tags, 'tunnel'
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
 
 

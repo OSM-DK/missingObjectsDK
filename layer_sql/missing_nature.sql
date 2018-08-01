@@ -43,7 +43,7 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   p.natural in (
+		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
                                     'tree',
@@ -63,19 +63,19 @@ and not exists (select 1
                                     'strait',
                                     'cave'
                                    )
-                         OR p.place in (
+                         OR p.tags -> 'place' in (
                                     'peninsula', 'locality'
                                    )
                          OR p.tags -> 'geological' = 'moraine'
-                         OR (p.tags -> 'tidal' IS NOT NULL AND p.tags -> 'tidal' <> '')
+                         OR defined(p.tags, 'tidal')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
 
 
 and not exists (select 1
                 from osm_point p
-		where (   p.natural in (
+		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
                                     'tree',
@@ -95,19 +95,19 @@ and not exists (select 1
                                     'strait',
                                     'cave'
                                    )
-                         OR p.place in (
+                         OR p.tags -> 'place' in (
                                     'peninsula', 'locality'
                                    )
                          OR p.tags -> 'geological' = 'moraine'
-                         OR (p.tags -> 'tidal' IS NOT NULL AND p.tags -> 'tidal' <> '')
+                         OR defined(p.tags, 'tidal')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
 
 
 and not exists (select 1
                 from osm_line p
-		where (   p.natural in (
+		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
                                     'tree',
@@ -127,11 +127,11 @@ and not exists (select 1
                                     'strait',
                                     'cave'
                                    )
-                         OR p.place in (
+                         OR p.tags -> 'place' in (
                                     'peninsula', 'locality'
                                    )
                          OR p.tags -> 'geological' = 'moraine'
-                         OR (p.tags -> 'tidal' IS NOT NULL AND p.tags -> 'tidal' <> '')
+                         OR defined(p.tags, 'tidal')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )

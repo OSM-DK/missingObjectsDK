@@ -25,7 +25,8 @@ where featuretype in ('boplads',
                       )
 and not exists (select 1
                 from osm_polygon p
-		where p.historic in ('archaeological_site',
+		where p.tags-> 'historic' in (
+                                     'archaeological_site',
                                      'battlefield',
                                      'building',
                                      'castle',
@@ -37,5 +38,5 @@ and not exists (select 1
                                      'yes'
                      )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 50
+		 AND ST_Distance(p.way::geography, s.way::geography) < 100
                 )

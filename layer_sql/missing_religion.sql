@@ -12,7 +12,11 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where p.religion IS NOT NULL
-                 AND p.religion <> ''
+		where defined(p.tags, 'religion')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )
+and not exists (select 1
+                from osm_point p
+		where defined(p.tags, 'religion')
+		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )

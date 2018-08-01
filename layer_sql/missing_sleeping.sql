@@ -8,16 +8,16 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   p.tourism in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
-                       OR p.amenity in ('resort', 'beach_resort')
+		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
+                       OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 100 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 100 )
 
 and not exists (select 1
                 from osm_point p
-		where (   p.tourism in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
-                       OR p.amenity in ('resort', 'beach_resort')
+		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
+                       OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 100 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 100 )

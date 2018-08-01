@@ -14,11 +14,23 @@ where featuretype in ('efterskoleUngdomsskole',
                       'universitet')
 and not exists (select 1
                 from osm_polygon p
-		where p.amenity in ('college',
+		where p.tags -> 'amenity' in (
+                                    'college',
 			 	    'school',
 				    'music_school',
                                     'language_school',
                                     'university',
                                     'research_institute')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
+and not exists (select 1
+                from osm_point p
+		where p.tags -> 'amenity' in (
+                                    'college',
+			 	    'school',
+				    'music_school',
+                                    'language_school',
+                                    'university',
+                                    'research_institute')
+		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )

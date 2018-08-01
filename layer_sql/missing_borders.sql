@@ -5,9 +5,9 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   p.place in ('pensinsula')
-                       OR (p.boundary IS NOT NULL AND p.boundary <> '')
+		where (   p.tags -> 'place' in ('pensinsula')
+                       OR (defined(p.tags, 'boundary')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 100
+		 AND ST_Distance(p.way::geography, s.way::geography) < 100
                )

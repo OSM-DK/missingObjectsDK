@@ -17,20 +17,20 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   p.landuse in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry')
-                       OR p.natural in ('moor', 'heath', 'grassland', 'wood')
-                       OR p.leisure in ('nature_reserve')
-                       OR p.boundary in ('national_park', 'protected_area')
+		where (   p.tags -> 'landuse' in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry')
+                       OR p.tags -> 'natural' in ('moor', 'heath', 'grassland', 'wood')
+                       OR p.tags -> 'leisure' in ('nature_reserve')
+                       OR p.tags -> 'boundary' in ('national_park', 'protected_area')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 20 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 20 )
 
 and not exists (select 1
                 from osm_point p
-		where (   p.landuse in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry')
-                       OR p.natural in ('moor', 'heath', 'grassland', 'wood')
-                       OR p.leisure in ('nature_reserve')
-                       OR p.boundary in ('national_park', 'protected_area')
+		where (   p.tags -> 'landuse' in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry')
+                       OR p.tags -> 'natural' in ('moor', 'heath', 'grassland', 'wood')
+                       OR p.tags -> 'leisure' in ('nature_reserve')
+                       OR p.tags -> 'boundary' in ('national_park', 'protected_area')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 50 )
+		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )

@@ -15,11 +15,10 @@ PGPORT=5435 osm2pgsql -s -G -K -j -c -l --prefix='osm' -S osmimport.style -U ${P
 
 # Get official Danish placenames from https://download.kortforsyningen.dk/content/stednavne and unzip it.
 wget -nv -P files -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip
-rm files/KORT10/*
-unzip  files/DK_GML_UTM32-EUREF89.zip KORT10/KORT10.gml -d files
+unzip -j -o files/DK_GML_UTM32-EUREF89.zip KORT10/KORT10.gml -d files
 
 # Fix missing dimension and SRS definitions and surplus spaces in the GML file:
-perl -p -e 's/<gml:posList>/<gml:posList srsName="EPSG:25832" srsDimension="3">/g; s/\s+(<\/kort)/$1/gs' files/KORT10/KORT10.gml > files/stednavne.gml
+perl -p -e 's/<gml:posList>/<gml:posList srsName="EPSG:25832" srsDimension="3">/g; s/\s+(<\/kort)/$1/gs' files/KORT10.gml > files/stednavne.gml
 
 
 # Import placenames to PostGIS
