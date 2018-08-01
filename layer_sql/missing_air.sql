@@ -1,24 +1,13 @@
 select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
 from stednavne s
 where featuretype in (
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-
- flyveplads
- heliport
- mindreLufthavn
- størreLufthavn
- svæveflyveplads
- terminal
-
+                      'flyveplads',
+                      'heliport',
+                      'mindreLufthavn',
+                      'størreLufthavn',
+                      'svæveflyveplads',
+                      'terminal',
+                      'landingsplads',
                      )
 and not exists (select 1
                 from osm_polygon p

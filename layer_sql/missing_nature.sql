@@ -66,8 +66,8 @@ and not exists (select 1
                          OR p.place in (
                                     'peninsula', 'locality'
                                    )
-                         OR p.tags -> geological = 'moraine'
-                         OR (p.tags -> tidal IS NOT NULL AND p.tags -> tidal <> '')
+                         OR p.tags -> 'geological' = 'moraine'
+                         OR (p.tags -> 'tidal' IS NOT NULL AND p.tags -> 'tidal' <> '')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
 		 AND ST_Distance(p.way, s.way) < 1 )
@@ -98,8 +98,8 @@ and not exists (select 1
                          OR p.place in (
                                     'peninsula', 'locality'
                                    )
-                         OR p.tags -> geological = 'moraine'
-                         OR (p.tags -> tidal IS NOT NULL AND p.tags -> tidal <> '')
+                         OR p.tags -> 'geological' = 'moraine'
+                         OR (p.tags -> 'tidal' IS NOT NULL AND p.tags -> 'tidal' <> '')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
 		 AND ST_Distance(p.way, s.way) < 1 )
@@ -130,8 +130,8 @@ and not exists (select 1
                          OR p.place in (
                                     'peninsula', 'locality'
                                    )
-                         OR p.tags -> geological = 'moraine'
-                         OR (p.tags -> tidal IS NOT NULL AND p.tags -> tidal <> '')
+                         OR p.tags -> 'geological' = 'moraine'
+                         OR (p.tags -> 'tidal' IS NOT NULL AND p.tags -> 'tidal' <> '')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
 		 AND ST_Distance(p.way, s.way) < 1 )

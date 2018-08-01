@@ -37,4 +37,5 @@ and not exists (select 1
                                      'yes'
                      )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 1 )
+		 AND ST_Distance(p.way, s.way) < 50
+                )

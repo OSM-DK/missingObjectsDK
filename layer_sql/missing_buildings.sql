@@ -8,6 +8,6 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where p.builing is not null and p.building <> ''
+		where p.building is not null and p.building <> ''
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
 		 AND ST_Distance(p.way, s.way) < 20 )

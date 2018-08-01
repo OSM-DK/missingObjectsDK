@@ -1,7 +1,7 @@
 select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
 from stednavne s
 where featuretype in (
-                      'landsdel',
+                      'landsdel'
                      )
 and not exists (select 1
                 from osm_polygon p
@@ -9,4 +9,5 @@ and not exists (select 1
                        OR (p.boundary IS NOT NULL AND p.boundary <> '')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way, s.way) < 100 )
+		 AND ST_Distance(p.way, s.way) < 100
+               )
