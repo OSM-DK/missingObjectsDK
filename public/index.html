@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manglende navne i OpenStreetMap i Danmark</title>
+</head>
+
+<body>
+<header>
+  <h1>Manglende navne i OpenStreetMap i Danmark</h1>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</header>
+<section>
+<h2>Manglende stednavne</h2>
+<p>Her er en oversigt over stednavne fra Styrelsen for Dataforsyning og Effektiviserings <a ref="https://sdfe.dk/hent-data/danske-stednavne/">liste over Danske Stednavne</a>,
+som ikke kan genfindes i OpenStreetMap - i hvert fald ikke med de korrekte tags.<p>
+
+<p>Listen opdateres hver nat, dog opdateres Danske Stednavne kun hver søndag</p>
+
+<p>Som source i OSM bør angives "SDFE Danske Stednavne"</p>
+
+<p class="warning">Bemærk, at udtrækkene ikke er gennem-testede. Især kan navnene måske findes med andre tags eller på andre typer objekter (ways, areas, nodes),
+end jeg regnede med. Eller måske lidt længere væk end den tolerance, jeg har krævet.<br/>
+Giv gerne besked, hvis du opdager systematiske fejl af denne eller andre slags.</p>
+
+<ul>
+
+<li><a href="map.php?layer=missing_cities&title=Manglende%20byer">Manglende byer</a></li>
+<li><a href="map.php?layer=missing_air&title=Manglende%20lufthavne">Manglende lufthavne</a></li>
+<li><a href="map.php?layer=missing_archeology&title=Manglende%20fortidsminder">Manglende fortidsminder</a></li>
+<li><a href="map.php?layer=missing_borders&title=Manglende%20grænser">Manglende grænser</a></li>
+<li><a href="map.php?layer=missing_bridges&title=Manglende%20broer">Manglende broer</a></li>
+<li><a href="map.php?layer=missing_buldings&title=Manglende%20bygninger">Manglende bygninger</a></li>
+<li><a href="map.php?layer=missing_farms&title=Manglende%20gårde">Manglende gårde</a></li>
+<li><a href="map.php?layer=missing_harbours&title=Manglende%20havne">Manglende havne</a></li>
+<li><a href="map.php?layer=missing_islands&title=Manglende%20øer">Manglende øer</a></li>
+<li><a href="map.php?layer=missing_landuse&title=Manglende%20jordanvendelse">Manglende jordanvendelse</a></li>
+<li><a href="map.php?layer=missing_manmade&title=Manglende%20tekniske installationer">Manglende tekniske installationer</a></li>
+<li><a href="map.php?layer=missing_nature&title=Manglende%20naturområder">Manglende naturområder</a></li>
+<li><a href="map.php?layer=missing_poi&title=Manglende%20seværdigheder">Manglende seværdigheder</a></li>
+<li><a href="map.php?layer=missing_public&title=Manglende%20offentlige%20instanser">Manglende offentlige instanser</a></li>
+<li><a href="map.php?layer=missing_religion&title=Manglende%20religion">Manglende religion</a></li>
+<li><a href="map.php?layer=missing_road&title=Manglende%20veje">Manglende veje</a></li>
+<li><a href="map.php?layer=missing_schools&title=Manglende%20uddannelsesinstitutioner">Manglende uddannelsesinstitutioner</a></li>
+<li><a href="map.php?layer=missing_seamark&title=Manglende%20sømærker">Manglende sømærker</a></li>
+<li><a href="map.php?layer=missing_sleeping&title=Manglende%20overnatning">Manglende overnatning</a></li>
+<li><a href="map.php?layer=missing_sport&title=Manglende%20sport">Manglende sport</a></li>
+<li><a href="map.php?layer=missing_trains&title=Manglende%20tog">Manglende tog</a></li>
+<li><a href="map.php?layer=missing_water&title=Manglende%20vand">Manglende vand</a></li>
+
+</ul>
+
+</section>
+
+<section>
+<h2>Adresser uden veje</h2>
+<p>Dette er en oversigt over adresser, som ikke ligger i nærheden af en vej med samme navn. Helt konkret nodes, hvor <code>addr:street</code> på adressen ikke findes som <code>name</code>
+på en vej, der ligger inden for 500 meter af adressen. Der er også den modsatte liste, altså veje, der ikke har en passende adresse i nærheden.</p>
+<p>Listerne opdateres hver nat, alene ud fra OSM</p>
+
+<ul>
+<li><a href="map.php?layer=lost_addresses_&title=Adresser%20uden%20veje">Adresser uden veje</a></li>
+<li><a href="map.php?layer=lonely_roads_&title=Veje%20uden%20adresser">Veje uden adresser</a></li>
+
+</ul>
+</section>
+<section>
+<h2>Om dette site</h2>
+<p>Sitet er udviklet af Jørgen Elgaard Larsen. Giv gerne besked pr. mail til <a href="mailto:jel@elgaard.net?subject=OSM-lister">jel@elgaard.net</a>, hvis du oplever fejl.</p>
+</section>
+
+</body>
+
+</html>
