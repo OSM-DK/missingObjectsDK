@@ -20,7 +20,7 @@ and not exists (select 1
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 20 )
+		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
                 from osm_point p
@@ -33,4 +33,4 @@ and not exists (select 1
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 20 )
+		 AND ST_Distance(p.geog, s.geog) < 20 )

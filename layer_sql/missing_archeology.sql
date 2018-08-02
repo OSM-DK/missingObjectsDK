@@ -38,5 +38,5 @@ and not exists (select 1
                                      'yes'
                      )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 100
+		 AND ST_Distance(p.geog, s.geog) < 100
                 )

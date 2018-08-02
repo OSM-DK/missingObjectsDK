@@ -15,7 +15,7 @@ and not exists (select 1
                        OR p.tags -> 'seamark:type' = 'harbour'
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 50
+		 AND ST_Distance(p.geog, s.geog) < 50
                 )
 
 and not exists (select 1
@@ -28,7 +28,7 @@ and not exists (select 1
                        OR p.tags -> 'seamark:type' = 'harbour' 
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 50
+		 AND ST_Distance(p.geog, s.geog) < 50
                )
 
 

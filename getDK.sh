@@ -13,6 +13,12 @@ wget -nv -P files -N "http://download.geofabrik.de/europe/denmark-latest.osm.pbf
 if test $(find files/denmark-latest.osm.pbf -mmin -240)
 then
   PGPORT=5435 osm2pgsql -s -G -K -j -c -l --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf
+
+  echo "Creating OSM indeces"
+  # Create indexes
+  psql osm < sql/osm_indexes.sql
+
+
 else
   echo "No news from OSM"
 fi
@@ -29,13 +35,15 @@ then
    # Import placenames to PostGIS
    echo "Importing stednavne"
    PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln stednavne -skipfailures -preserve_fid -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" files/stednavne.gml
+
+   echo "Creating indeces"
+   # Create indexes
+   psql osm < sql/stednavne_indexes.sql
+
+
 else
    echo "No news from Kortforsyningen"
 fi
-
-echo "Creating indeces"
-# Create indexes
-psql osm < sql/indexes.sql
 
 
 

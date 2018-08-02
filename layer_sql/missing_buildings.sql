@@ -10,4 +10,4 @@ and not exists (select 1
                 from osm_polygon p
 		where defined(p.tags, 'building')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )
+		 AND ST_Distance(p.geog, s.geog) < 50 )

@@ -69,7 +69,10 @@
 
       const addPopUp = (feature, layer) => {
         let props = feature.properties;
-        let content = `<h2>${props.navn}</h2>`;
+	if (props.tags && !props.navn) {
+	   props = JSON.parse(props.tags);
+        }
+        let content = `<h2>${props.navn || props.name}</h2>`;
         for (let p in props) {
           content += `<b>${p}:</b> ${props[p]}<br/>`;
         }
@@ -80,7 +83,7 @@
       var map = L.map('map', {
                                  center: new L.LatLng(55.54,11.83),
                                  zoom: 9,
-                                 layers: [base,seamarks]
+                                 layers: [base]
                                });
 
       var geojsonLayer = new L.GeoJSON(null, { onEachFeature: addPopUp,

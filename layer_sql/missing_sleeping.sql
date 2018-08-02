@@ -12,7 +12,7 @@ and not exists (select 1
                        OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 100 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
                 from osm_point p
@@ -20,4 +20,4 @@ and not exists (select 1
                        OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 100 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )

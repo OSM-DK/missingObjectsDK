@@ -22,7 +22,7 @@ and not exists (select 1
                                     'university',
                                     'research_institute')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 1 )
 and not exists (select 1
                 from osm_point p
 		where p.tags -> 'amenity' in (
@@ -33,4 +33,4 @@ and not exists (select 1
                                     'university',
                                     'research_institute')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 1 )

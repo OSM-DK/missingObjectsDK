@@ -70,7 +70,7 @@ and not exists (select 1
                          OR defined(p.tags, 'tidal')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
 and not exists (select 1
@@ -102,7 +102,7 @@ and not exists (select 1
                          OR defined(p.tags, 'tidal')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
 and not exists (select 1
@@ -134,4 +134,4 @@ and not exists (select 1
                          OR defined(p.tags, 'tidal')
                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 1 )

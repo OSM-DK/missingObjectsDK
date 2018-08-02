@@ -19,7 +19,7 @@ and not exists (select 1
                        or p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )
+		 AND ST_Distance(p.geog, s.geog) < 50 )
 
 and not exists (select 1
                 from osm_point p
@@ -28,4 +28,4 @@ and not exists (select 1
                        or p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.way::geography, s.way::geography) < 50 )
+		 AND ST_Distance(p.geog, s.geog) < 50 )
