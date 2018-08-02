@@ -10,7 +10,7 @@ echo "Getting file"
 wget -nv -P files -N "http://download.geofabrik.de/europe/denmark-latest.osm.pbf"
 
 # Import into database
-if test $(find files/denmark-latest.osm.pbf -mmin -240)
+if test $(find files/denmark-latest.osm.pbf -cmin -300)
 then
   PGPORT=5435 osm2pgsql -s -G -K -j -c -l --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf
 
@@ -25,7 +25,7 @@ fi
 
 # Get official Danish placenames from https://download.kortforsyningen.dk/content/stednavne and unzip it.
 wget -nv -P files -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip
-if test $(find files/DK_GML_UTML32-EUREF89.zip -mmin -240)
+if test $(find files/DK_GML_UTML32-EUREF89.zip -cmin -300)
 then
    unzip -j -o files/DK_GML_UTM32-EUREF89.zip KORT10/KORT10.gml -d files
 
