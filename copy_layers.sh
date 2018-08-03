@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
 # Script for copying working layers to home page
+source config.sh
 
-
+echo "Staring copy_layers $(date)" >> $LOGFILE
 for layerfile in $(ls layers/*.geojson); do
 	layerfile=${layerfile#*/}
 
 	# TODO: Validate geojson file
-	cp "layers/$layerfile" public/layers
+	cp "layers/$layerfile" public/layers >> $LOGFILE
 done
 
 
-echo "Done"
+echo "Done - $(date)" >> $LOGFILE
 

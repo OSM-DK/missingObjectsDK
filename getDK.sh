@@ -5,46 +5,51 @@
 
 source config.sh
 
+echo "--------------------------------------------------" >> $LOGFILE
+echo "Starting getDK.sh - $(date)" >> $LOGFILE
+
 # Get OSM file
-echo "Getting file"
-wget -nv -P files -N "http://download.geofabrik.de/europe/denmark-latest.osm.pbf"
+echo "Get OSM file" >> $LOGFILE
+wget -nv -P files -N "http://download.geofabrik.de/europe/denmark-latest.osm.pbf" >> $LOGFILE
 
 # Import into database
 if test $(find files/denmark-latest.osm.pbf -cmin -300)
 then
-  PGPORT=5435 osm2pgsql -s -G -K -j -c -l --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf
+  echo "Reading OSM file" >> $LOGFILE
+  PGPORT=5435 osm2pgsql -s -G -K -j -c -l --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf >> $LOGFILE
 
-  echo "Creating OSM indeces"
   # Create indexes
-  psql osm < sql/osm_indexes.sql
-
+  echo "Create OSM indexes" >> $LOGFILE
+  psql osm < sql/osm_indexes.sql >> $LOGFILE
 
 else
-  echo "No news from OSM"
+  echo "No news from OSM" >> $LOGFILE
 fi
 
 # Get official Danish placenames from https://download.kortforsyningen.dk/content/stednavne and unzip it.
-wget -nv -P files -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip
-if test $(find files/DK_GML_UTML32-EUREF89.zip -cmin -300)
+echo "Get stednavne" >> $LOGFILE
+wget -nv -P files -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip >> $LOGFILE
+if test $(find files/DK_GML_UTM32-EUREF89.zip -cmin -300)
 then
-   unzip -j -o files/DK_GML_UTM32-EUREF89.zip KORT10/KORT10.gml -d files
+   echo "Unzip stednavne" >> $LOGFILE
+   unzip -j -o files/DK_GML_UTM32-EUREF89.zip KORT10/KORT10.gml -d files >> $LOGFILE
 
    # Fix missing dimension and SRS definitions and surplus spaces in the GML file:
    perl -p -e 's/<gml:posList>/<gml:posList srsName="EPSG:25832" srsDimension="3">/g; s/\s+(<\/kort)/$1/gs' files/KORT10.gml > files/stednavne.gml
 
    # Import placenames to PostGIS
-   echo "Importing stednavne"
+   echo "Importing stednavne" >> $LOGFILE
    PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln stednavne -skipfailures -preserve_fid -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" files/stednavne.gml
 
-   echo "Creating indeces"
+   echo "Creating stednavne indexes" >> $LOGFILE
    # Create indexes
-   psql osm < sql/stednavne_indexes.sql
+   psql osm < sql/stednavne_indexes.sql >> $LOGFILE
 
 
 else
-   echo "No news from Kortforsyningen"
+   echo "No news from Kortforsyningen" >> $LOGFILE
 fi
 
 
 
-echo "Done"
+echo "getDK.sh Done - $(date)"  >> $LOGFILE
