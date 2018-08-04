@@ -1,0 +1,51 @@
+body {
+   padding-left: 5em;
+   padding-right: 2em;
+   font-family: verdana, sans-serif;
+}
+
+h1, h2 {
+   color: #005;
+}
+
+h2 {
+   font-size: medium;
+   margin-bottom: 0px;
+}
+p, li {
+   font-size: small;
+}
+
+.warning {
+   border: 2px solid red;
+   background: yellow;
+   padding: 4px;
+   width: auto;
+}
+
+.error {
+   border: 3px solid yellow;
+   background: red;
+   color: yellow;
+   font-weight: bold;
+   font-size: medium;
+   padding: 6px;
+   width: auto;
+}
+
+
+a {
+  color: #005;
+  text-decoratoipn: none:
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+.multicolumn {
+  column-count: 3;
+  column-gap: 20px;
+  
+}

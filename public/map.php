@@ -28,7 +28,7 @@
         text-align: center;
 	display: block;
 	background: white;
-        border: 1px solid grey;
+        border: 1px solid #ddd;
         position:absolute;
         top:40%;
 	left:40%;
@@ -92,7 +92,7 @@
             crossorigin="">
     </script>
 
-    <div id="spinner"><div class="html-spinner"></div><br/>Henter data...</div>
+    <div id="spinner"><div class="html-spinner"></div><br/><span id="spinnertext">Henter data...</span></div>
 
     <script>
 
@@ -165,12 +165,14 @@
 
       $('#spinner').addClass('active');
       $.getJSON("layers/<?= $_GET['layer'] ?>.geojson", function(data) {
-	$('#spinner').removeClass('active');
         if (data && data.features) {
+          $('#spinnertext').text('Tegner kortet...');
           geojsonLayer.addData(data);
         } else {
           alert("Could not load layer <?= $_GET['layer'] ?>");
 	}
+	$('#spinner').removeClass('active');
+        $('#spinnertext').text('Henter data...');
       });
 
     </script>
