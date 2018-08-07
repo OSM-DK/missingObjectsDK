@@ -8,10 +8,12 @@
     <meta name="DC.title" content="<?= $_GET['title'] ?>">
     <title><?= $_GET['title'] ?></title>
 
-   <link rel="stylesheet"
+    <link rel="stylesheet"
          href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
          crossorigin=""/>
+
+    <link rel="stylesheet" href="Leaflet.EditInOSM.css" />
     <style>
       body {
       padding: 0;
@@ -92,6 +94,8 @@
             crossorigin="">
     </script>
 
+    <script src="Leaflet.EditInOSM.js"></script>
+
     <div id="spinner"><div class="html-spinner"></div><br/><span id="spinnertext">Henter data...</span></div>
 
     <script>
@@ -141,7 +145,8 @@
       var map = L.map('map', {
                                  center: new L.LatLng(56.00,10.83),
                                  zoom: 8,
-                                 layers: [base]
+                                 layers: [base],
+                                 editInOSMControlOptions: {}
                                });
 
       var geojsonLayer = new L.GeoJSON(null, { onEachFeature: addPopUp,
