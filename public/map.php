@@ -13,7 +13,6 @@
          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
          crossorigin=""/>
 
-    <link rel="stylesheet" href="Leaflet.EditInOSM.css" />
     <style>
       body {
       padding: 0;
@@ -77,6 +76,31 @@
         from {transform: rotate(0deg);}
         to {transform: rotate(360deg);}
       }
+
+
+      .editor-container {
+         background: none repeat scroll 0 0 #F8F8F9;
+         border: 1px solid #888888;
+         border-radius: 5px 5px 5px 5px;
+         box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+
+      .editor-container a.osm-editor {
+         display: inline-block;
+         height: 36px;
+         min-width: 36px;
+         text-align: center;
+         line-height: 36px;
+         color: #333;
+         padding: 0 5px;
+         text-decoration: none;
+         font-family: sans-serif;
+      }
+
+      a.osm-editor:hover {
+         box-shadow: 0 0 2px 0 black inset;
+      }
+
     </style>
 
   </head>
@@ -93,8 +117,6 @@
             integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
             crossorigin="">
     </script>
-
-    <script src="Leaflet.EditInOSM.js"></script>
 
     <div id="spinner"><div class="html-spinner"></div><br/><span id="spinnertext">Henter data...</span></div>
 
@@ -128,13 +150,9 @@
       const addPopUp = (feature, layer) => {
         let props = feature.properties;
 	if (props.tags && !props.navn) {
-           try {
-	     props = JSON.parse(props.tags);
-           } catch (e) {
-             console.log("Could not parse json", props.tags, e);
-           }
+           props = props.tags;
         }
-        let content = `<h2>${props.navn || props.name}</h2>`;
+        let content = `<h2>${props.navn || props.name || (props['addr:street'] + ' ' + props['addr:housenumber'])}</h2>`;
         for (let p in props) {
           content += `<b>${p}:</b> ${props[p]}<br/>`;
         }
@@ -146,8 +164,75 @@
                                  center: new L.LatLng(56.00,10.83),
                                  zoom: 8,
                                  layers: [base],
-                                 editInOSMControlOptions: {}
-                               });
+
+                             });
+
+      var editors = {
+            Id: { url: 'https://www.openstreetmap.org/edit?editor=id#map=',
+                  displayName: "iD",
+                  buildUrl: function (map) {
+                     return editors.Id.url + [
+                        map.getZoom(),
+                        map.getCenter().wrap().lat,
+                        map.getCenter().wrap().lng
+                      ].join('/');
+                  }
+            },
+            Josm: {
+                   url: 'http://127.0.0.1:8111/load_and_zoom',
+                   timeout: 1000,
+                   displayName: "JOSM",
+                   buildUrl: function (map) {
+                     var bounds = map.getBounds();
+                     return editors.Josm.url + L.Util.getParamString({
+                            left: bounds.getNorthWest().wrap().lng,
+                            right: bounds.getSouthEast().wrap().lng,
+                            top: bounds.getNorthWest().wrap().lat,
+                            bottom: bounds.getSouthEast().wrap().lat
+                        });
+                    }
+            }
+      };
+
+      var openEditor = function(editor) {
+	var openUrl = editor.buildUrl(map);
+        var w = window.open(openUrl);
+        if (editor.timeout) {
+            setTimeout(function() {w.close();}, editor.timeout);
+        }
+      };
+
+
+      var editorControl = L.Control.extend ({
+        options: { position: 'topright'},
+
+        initialize: function( options ) {
+          L.setOptions(this, options);
+        },
+
+        onAdd: function(mapArg) {
+          var editorContainer = L.DomUtil.create('div', 'editor-container');
+          editorContainer.title = '';
+          for (edName in editors) {
+	    var ed = editors[edName];
+            var widget = L.DomUtil.create('a', 'osm-editor', editorContainer);
+            widget.href = '#';
+            widget.innerText = ed.displayName;
+            (function(editor) {
+              L.DomEvent.on(widget, "click", function(e) {
+                 openEditor(editor);
+                 L.DomEvent.stop(e);
+              });
+            })(ed);
+          }
+          return editorContainer;
+        },
+
+        onRemove: function() {
+        }
+
+      });
+      (new editorControl()).addTo(map);
 
       var geojsonLayer = new L.GeoJSON(null, { onEachFeature: addPopUp,
                                                style: { "color": "#ff0000",
