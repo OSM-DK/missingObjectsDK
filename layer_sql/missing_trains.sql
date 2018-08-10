@@ -24,5 +24,5 @@ and not exists (select 1
 		where (   p.tags -> 'railway' IN ('halt', 'station')
                        OR p.tags -> 'public_transport' IN ('station')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.name = s.navn OR p.alt_name = s.navn or s.navn = p.name || ' Station')
 		 AND ST_Distance(p.geog, s.geog) < 20 )
