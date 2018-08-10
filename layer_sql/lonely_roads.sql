@@ -1,4 +1,4 @@
-select way, hstore_to_json(tags)
+select way, hstore_to_json(tags) as tags
 from osm_line r
 where name is not null
  and name <> ''

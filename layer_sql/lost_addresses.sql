@@ -1,4 +1,4 @@
-select way, hstore_to_json(tags)
+select way, hstore_to_json(tags) as tags
 from osm_point a
 where defined(tags, 'addr:street')
 and not exists (select 1
