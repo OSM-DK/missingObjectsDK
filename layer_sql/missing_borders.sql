@@ -5,7 +5,7 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   p.tags -> 'place' in ('pensinsula')
+		where (   p.tags -> 'place' in ('peninsula, locality')
                        OR defined(p.tags, 'boundary')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
