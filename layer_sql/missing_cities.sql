@@ -2,9 +2,7 @@ select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn,
 from stednavne s
 where featuretype in (
                       'by',
-                      'bydel',
-                      'bebyggelse',
-                      'spredtBebyggelse'
+                      'bydel'
                      )
 and not exists (select 1
                 from osm_polygon p
@@ -17,10 +15,10 @@ and not exists (select 1
                                   'city_block',
                                   'town',
 				  'village',
-				  'hamlet',
-				  'isolated_dwelling')
+				  'hamlet'
+                                  )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
 and not exists (select 1
                 from osm_point p
 		where p.tags -> 'place' in (
@@ -32,7 +30,7 @@ and not exists (select 1
                                   'city_block',
                                   'town',
 				  'village',
-				  'hamlet',
-				  'isolated_dwelling')
+				  'hamlet'
+                                 )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
