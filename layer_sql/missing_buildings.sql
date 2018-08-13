@@ -11,4 +11,4 @@ and not exists (select 1
 		where defined(p.tags, 'building')
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
-order by ST_XMin(s.geog)
+order by ST_XMin(s.way)

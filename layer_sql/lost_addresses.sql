@@ -5,4 +5,4 @@ and not exists (select 1
                 from osm_line r
 		where (r.name = a.tags -> 'addr:street') 
 		AND ST_Distance(r.geog, a.geog) < 500 )
-order by ST_XMin(a.geog)
+order by ST_XMin(a.way)
