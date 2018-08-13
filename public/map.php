@@ -40,7 +40,7 @@
           margin: auto;
 	  width:40px;
   	  height:40px;
-  	  border:4px solid grey;
+  	  border:4px solid #ccc;
   	  border-top:4px solid blue;
    	  border-radius:50%;
           -webkit-transition-property: -webkit-transform;
@@ -257,12 +257,15 @@
       $.getJSON("layers/<?= $_GET['layer'] ?>.geojson", function(data) {
         if (data && data.features) {
           $('#spinnertext').text('Tegner kortet...');
-          geojsonLayer.addData(data);
+          setTimeout( function() {
+            geojsonLayer.addData(data);
+	    $('#spinner').removeClass('active');
+            $('#spinnertext').text('Henter data...');
+          }, 10);
         } else {
+          $('#spinner').removeClass('active');
           alert("Could not load layer <?= $_GET['layer'] ?>");
 	}
-	$('#spinner').removeClass('active');
-        $('#spinnertext').text('Henter data...');
       });
 
     </script>
