@@ -40,3 +40,21 @@ and not exists (select 1
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100
                 )
+
+and not exists (select 1
+                from osm_point p
+		where p.tags-> 'historic' in (
+                                     'archaeological_site',
+                                     'battlefield',
+                                     'building',
+                                     'castle',
+                                     'memorial',
+                                     'milestone',
+                                     'ruins',
+                                     'rune_stone',
+                                     'tomb',
+                                     'yes'
+                     )
+		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND ST_Distance(p.geog, s.geog) < 100
+                )
