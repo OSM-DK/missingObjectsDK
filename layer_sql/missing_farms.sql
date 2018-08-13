@@ -19,3 +19,5 @@ and not exists (select 1
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn OR p.tags -> 'addr:housename' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
+order by ST_XMin(s.geog)
+
