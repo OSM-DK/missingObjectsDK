@@ -10,13 +10,19 @@ echo "Starting getDK.sh - $(date)" >> $LOGFILE
 
 # Get OSM file
 echo "Get OSM file" >> $LOGFILE
-wget -nv -P files -N "http://download.geofabrik.de/europe/denmark-latest.osm.pbf" >> $LOGFILE
+wget -nv -P files -o - -N "http://download.geofabrik.de/europe/denmark-latest.osm.pbf" >> $LOGFILE
 
 # Import into database
 if test $(find files/denmark-latest.osm.pbf -cmin -300)
 then
   echo "Reading OSM file" >> $LOGFILE
-  PGPORT=5435 osm2pgsql -s -G -K -j -c -l --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf >> $LOGFILE
+  PGPORT=5435 osm2pgsql -s -G -K -j -c -l --unlogged --drop --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf >> $LOGFILE 2>&1
+  OSMRESULT=$?
+
+  if [ $OSMRESULT -ne 0 ]; then
+    >&2 echo "Could not import OSM file: exit code $OSMRESULT"
+    exit $OSMRESULT
+  fi
 
   # Create indexes
   echo "Create OSM indexes" >> $LOGFILE
@@ -28,7 +34,7 @@ fi
 
 # Get official Danish placenames from https://download.kortforsyningen.dk/content/stednavne and unzip it.
 echo "Get stednavne" >> $LOGFILE
-wget -nv -P files -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip >> $LOGFILE
+wget -nv -P files -o - -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip >> $LOGFILE
 if test $(find files/DK_GML_UTM32-EUREF89.zip -cmin -300)
 then
    echo "Unzip stednavne" >> $LOGFILE
