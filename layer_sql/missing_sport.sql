@@ -14,18 +14,29 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   (p.tags -> 'sport' IS NOT NULL AND p.tags -> 'sport' <> '')
+		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       or p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
+                       OR p.tags -> 'highway' IN ('racetrack')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.geog, s.geog) < 50 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
                 from osm_point p
-		where (   (p.tags -> 'sport' IS NOT NULL AND p.tags -> 'sport' <> '')
+		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       or p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
+                       OR p.tags -> 'highway' IN ('racetrack')
                       )
 		 AND (p.name = s.navn OR p.alt_name = s.navn)
-		 AND ST_Distance(p.geog, s.geog) < 50 )
+		 AND ST_Distance(p.geog, s.geog) < 300 )
+
+and not exists (select 1
+                from osm_line p
+		where (   defined(p.tags, 'sport')
+                       OR p.tags -> 'leisure' IN ('pitch', 'track')
+                       OR p.tags -> 'highway' IN ('racetrack')
+                      )
+		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND ST_Distance(p.geog, s.geog) < 300 )
