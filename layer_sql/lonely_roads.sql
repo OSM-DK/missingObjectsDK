@@ -2,8 +2,7 @@ select way, hstore_to_json(tags) as tags
 from osm_line r
 where name is not null
  and name <> ''
- and defined(tags, 'highway')
- and tags -> 'highway' not in ('motorway', 'motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'footway', 'path', 'cycleway', 'proposed', 'construction', 'track', 'primary')
+ and tags -> 'highway' in ('secondary', 'tertiary', 'unclassified', 'residential', 'living_street', 'pedestrian')
  and not defined(tags, 'bridge')
  and not exists (select 1
                  from osm_point a
