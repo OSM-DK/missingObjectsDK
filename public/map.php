@@ -242,7 +242,11 @@
                                                       },
                                              });
       geojsonLayer.addTo(map);
-
+      <?php
+        if  (isset($_GET['show_seamarks']) and $_GET['show_seamarks']) {
+          echo "seamarks.addTo(map);";
+        }
+      ?>
 
       var baseLayers = { "Luftfoto": sat,
                          "Kort": base,
@@ -251,6 +255,7 @@
       var overlays   = { 'Sømærker': seamarks,
                          "<?= $_GET['title'] ?>": geojsonLayer
                        };
+
 
       L.control.layers( baseLayers, overlays).addTo(map);
 

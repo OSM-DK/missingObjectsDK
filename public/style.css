@@ -16,6 +16,12 @@ p, li {
    font-size: small;
 }
 
+.note {
+   background: #eee;
+   padding: 1em;
+   border: 1px solid #aaa;
+}
+
 .warning {
    border: 2px solid red;
    background: yellow;
@@ -32,7 +38,6 @@ p, li {
    padding: 6px;
    width: auto;
 }
-
 
 a {
   color: #005;
