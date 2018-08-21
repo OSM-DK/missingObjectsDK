@@ -42,7 +42,7 @@ and not exists (select 1
                        OR p.tags -> 'barrier'  IN ('city_wall')
                        OR p.tags -> 'building' IN ('conservatory', 'greenhouse')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
@@ -62,5 +62,5 @@ and not exists (select 1
                        OR p.tags -> 'barrier'  IN ('city_wall')
                        OR p.tags -> 'building' IN ('conservatory', 'greenhouse')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )

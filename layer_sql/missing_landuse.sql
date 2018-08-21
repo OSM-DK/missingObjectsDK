@@ -22,7 +22,7 @@ and not exists (select 1
                        OR p.tags -> 'leisure' in ('nature_reserve')
                        OR p.tags -> 'boundary' in ('national_park', 'protected_area')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
@@ -32,7 +32,7 @@ and not exists (select 1
                        OR p.tags -> 'leisure' in ('nature_reserve')
                        OR p.tags -> 'boundary' in ('national_park', 'protected_area')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 order by ST_XMin(s.way)
 

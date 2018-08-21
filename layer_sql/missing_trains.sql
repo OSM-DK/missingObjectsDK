@@ -10,13 +10,13 @@ and not exists (select 1
                        OR p.tags -> 'building' IN ('station')
                        OR p.tags -> 'public_transport' IN ('station')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
                 from osm_line p
 		where p.tags -> 'railway' IN ('narrow_gauge', 'preserved', 'rail', 'subway', 'light_rail', 'disused', 'abandoned')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
@@ -24,5 +24,5 @@ and not exists (select 1
 		where (   p.tags -> 'railway' IN ('halt', 'station')
                        OR p.tags -> 'public_transport' IN ('station')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn or s.navn = p.name || ' Station')
+		 AND (p.names ? s.navn OR s.navn = p.name || ' Station')
 		 AND ST_Distance(p.geog, s.geog) < 500 )

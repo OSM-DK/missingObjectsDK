@@ -19,7 +19,7 @@ and not exists (select 1
                        OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
                        OR p.tags -> 'highway' IN ('racetrack')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
@@ -29,7 +29,7 @@ and not exists (select 1
                        OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
                        OR p.tags -> 'highway' IN ('racetrack')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 300 )
 
 and not exists (select 1
@@ -38,5 +38,5 @@ and not exists (select 1
                        OR p.tags -> 'leisure' IN ('pitch', 'track')
                        OR p.tags -> 'highway' IN ('racetrack')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 300 )

@@ -15,5 +15,5 @@ and not exists (select 1
                        OR p.tags -> 'amenity' in ('ferry_terminal', 'bus_station')
                        OR p.tags -> 'public_transport' in ('station', 'stop_area')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn OR p.name = s.navn || ' Flyveplads')
+		 AND (p.names ? s.navn OR p.names ? s.navn || ' Flyveplads')
 		 AND ST_Distance(p.geog, s.geog) < 100 )

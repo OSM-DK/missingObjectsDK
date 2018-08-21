@@ -16,7 +16,7 @@ and not exists (select 1
                        OR p.tags -> 'amenity' in ('grave_yard')
                        OR p.tags -> 'landuse' in ('cemetary')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn OR p.name || 'gård' = s.navn)
+		 AND (p.names ? s.navn OR p.name || 'gård' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 and not exists (select 1
                 from osm_point p
@@ -24,5 +24,5 @@ and not exists (select 1
                        OR p.tags -> 'amenity' in ('grave_yard')
                        OR p.tags -> 'landuse' in ('cemetary')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn or p.name || 'gård' = s.navn)
+		 AND (p.names ? s.navn OR p.name || 'gård' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )

@@ -21,8 +21,10 @@ sudo -u postgres createdb --encoding=UTF8 --owner=osm osm
 echo "CREATE EXTENSION postgis;" | psql osm
 echo "CREATE EXTENSION postgis_topology;" | psql osm
 echo "CREATE EXTENSION HSTORE;" | psql osm
+echo "CREATE EXTENSION plperl;" | psql osm
+echo "CREATE EXTENSION hstore_plperl;" | psql osm
+psql osm < sql/names2hstore.sql
 ```
-
 
 Then, copy `config.sh.example` to `config.sh` and edit the values:
 * `POSTGIS_USER` should be a user with full permissions to the `osm` database.

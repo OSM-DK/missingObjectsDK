@@ -21,7 +21,7 @@ and not exists (select 1
                                     'language_school',
                                     'university',
                                     'research_institute')
-		 AND (p.name = s.navn OR p.tags -> 'alt_name' = s.navn or p.tags -> 'old_name' = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 and not exists (select 1
                 from osm_point p
@@ -32,5 +32,5 @@ and not exists (select 1
                                     'language_school',
                                     'university',
                                     'research_institute')
-		 AND (p.name = s.navn OR p.tags -> 'alt_name' = s.navn OR p.tags -> 'old_name' = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )

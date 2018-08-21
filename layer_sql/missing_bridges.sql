@@ -7,13 +7,13 @@ where featuretype in (
 and not exists (select 1
                 from osm_polygon p
 		where defined(p.tags, 'bridge')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 and not exists (select 1
                 from osm_line p
 		where defined(p.tags, 'bridge')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 
 
@@ -28,12 +28,12 @@ where featuretype in (
 and not exists (select 1
                 from osm_polygon p
 		where defined(p.tags, 'tunnel')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 and not exists (select 1
                 from osm_line p
 		where defined(p.tags, 'tunnel')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 

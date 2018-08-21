@@ -9,11 +9,11 @@ and not exists (select 1
                        OR defined(p.tags, 'embankment')
                        OR p.tags -> 'man_made' IN ('embankment')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn OR p.tags -> 'lock_name' = s.navn)
+		 AND (p.names ? s.navn OR p.tags -> 'lock_name' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 
 and not exists (select 1
                 from osm_point p
 		where p.waterway in ('waterfall', 'dam', 'lock_gate')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )

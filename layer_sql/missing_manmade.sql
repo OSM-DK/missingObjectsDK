@@ -6,7 +6,6 @@ where featuretype in (
                       'kraftvarmeværk',
                       'køretekniskAnlæg',
                       'observatorium',
-                      'strandpost',
                       'søredningsstation',
                       'vandkraftværk',
                       'vandmølle',
@@ -19,7 +18,7 @@ and not exists (select 1
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'amenity' in ('driving_school', 'rescue_station')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
@@ -28,12 +27,12 @@ and not exists (select 1
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'amenity' in ('driving_school', 'rescue_station')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
                 from osm_line p
 		where (   p.tags -> 'man_made' in ('dyke')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )

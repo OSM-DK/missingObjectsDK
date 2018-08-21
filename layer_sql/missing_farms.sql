@@ -9,15 +9,17 @@ and not exists (select 1
 		where (   p.tags -> 'building' IN ('farm')
                        OR p.tags -> 'historic' IN ('manor')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
                 from osm_point p
-		where (   p.tags -> 'building' IN ('farm')
-                       OR p.tags -> 'historic' IN ('manor')
+		where (   (   (   p.tags -> 'building' IN ('farm')
+                               OR p.tags -> 'historic' IN ('manor')
+                              )
+                           AND (p.names ? s.navn)
+                          ) OR (p.tags -> 'addr:housename' = s.navn)
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn OR p.tags -> 'addr:housename' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 order by ST_XMin(s.way)
 

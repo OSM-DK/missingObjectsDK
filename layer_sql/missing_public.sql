@@ -19,7 +19,7 @@ and not exists (select 1
 					          )
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
@@ -32,5 +32,5 @@ and not exists (select 1
 					          )
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 20 )

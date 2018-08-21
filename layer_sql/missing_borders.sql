@@ -8,6 +8,6 @@ and not exists (select 1
 		where (   p.tags -> 'place' in ('peninsula, locality')
                        OR defined(p.tags, 'boundary')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100
                )

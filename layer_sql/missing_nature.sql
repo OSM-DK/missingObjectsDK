@@ -69,7 +69,7 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                          OR defined(p.tags, 'tidal')
                  )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
@@ -101,7 +101,7 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                          OR defined(p.tags, 'tidal')
                  )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
@@ -133,6 +133,6 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                          OR defined(p.tags, 'tidal')
                  )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 order by ST_XMin(s.way)

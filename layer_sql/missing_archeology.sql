@@ -37,7 +37,7 @@ and not exists (select 1
                                      'tomb',
                                      'yes'
                      )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100
                 )
 
@@ -55,6 +55,6 @@ and not exists (select 1
                                      'tomb',
                                      'yes'
                      )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100
                 )

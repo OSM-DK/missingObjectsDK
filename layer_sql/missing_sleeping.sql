@@ -11,7 +11,7 @@ and not exists (select 1
 		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
                        OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
@@ -19,5 +19,5 @@ and not exists (select 1
 		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
                        OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )

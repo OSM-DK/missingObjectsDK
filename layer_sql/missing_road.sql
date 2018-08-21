@@ -17,17 +17,17 @@ where featuretype in (
 and not exists (select 1
                 from osm_polygon p
 		where defined(p.tags, 'highway')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 300 )
 
 and not exists (select 1
                 from osm_line p
 		where defined(p.tags, 'highway')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 300 )
 
 and not exists (select 1
                 from osm_point p
 		where defined(p.tags, 'highway')
-		 AND (p.name = s.navn OR p.alt_name = s.navn)
+		 AND (p.names ? s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 300 )
