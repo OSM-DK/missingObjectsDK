@@ -10,13 +10,14 @@ where featuretype in (
                       'motocrossbane',
                       'motorbane',
                       'skydebane',
-                      'stadion'
+                      'stadion',
+                      'land'        -- Apparently, "land" means swimming pools "Friluftsbad"
                      )
 and not exists (select 1
                 from osm_polygon p
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool')
                        OR p.tags -> 'highway' IN ('racetrack')
                       )
 		 AND (p.names ? s.navn)
@@ -26,7 +27,7 @@ and not exists (select 1
                 from osm_point p
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool')
                        OR p.tags -> 'highway' IN ('racetrack')
                       )
 		 AND (p.names ? s.navn)

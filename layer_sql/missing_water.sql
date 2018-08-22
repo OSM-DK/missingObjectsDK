@@ -1,6 +1,6 @@
 select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
 from stednavne s
-where featuretype in ('å', 'vandfald', 'dæmning', 'sluse')
+where featuretype in ('å', 'vandfald', 'dæmning', 'sluse', 'vandløb')
 and not exists (select 1
                 from osm_line p
 		where (   p.tags -> 'waterway' in ('river', 'stream', 'riverbank', 'canal', 'waterfall', 'dam', 'lock_gate')

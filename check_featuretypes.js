@@ -16,7 +16,9 @@ for (const file of files) {
   data += fs.readFileSync(`layer_sql/${file}`, 'utf8');
 }
 
-const featureTypes = new Set();
+const ignoreList = ['andet'];
+const featureTypes = new Set(ignoreList);
+
 
 const chunks = data.match(/where\s+featuretype\s+in\s*\(\s*[^)]+/gi);
 

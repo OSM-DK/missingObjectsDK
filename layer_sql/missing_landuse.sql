@@ -4,7 +4,7 @@ where featuretype in (
                       'agerMark',
                       'eng',
                       'hede',
-                      'industiområde',
+                      'industriområde',
                       'kolonihave',
                       'nationalpark',
                       'naturareal',
@@ -17,7 +17,7 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p
-		where (   p.tags -> 'landuse' in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry')
+		where (   p.tags -> 'landuse' in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry', 'military')
                        OR p.tags -> 'natural' in ('moor', 'heath', 'grassland', 'wood')
                        OR p.tags -> 'leisure' in ('nature_reserve')
                        OR p.tags -> 'boundary' in ('national_park', 'protected_area')
@@ -27,7 +27,7 @@ and not exists (select 1
 
 and not exists (select 1
                 from osm_point p
-		where (   p.tags -> 'landuse' in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry')
+		where (   p.tags -> 'landuse' in ('farmland', 'farmyard', 'forest', 'meadow', 'industrial', 'allotments', 'quarry', 'military')
                        OR p.tags -> 'natural' in ('moor', 'heath', 'grassland', 'wood')
                        OR p.tags -> 'leisure' in ('nature_reserve')
                        OR p.tags -> 'boundary' in ('national_park', 'protected_area')
