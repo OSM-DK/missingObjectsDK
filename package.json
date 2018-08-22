@@ -1,0 +1,22 @@
+{
+  "name": "missingobjectsdk",
+  "version": "1.0.0",
+  "description": "Various tools to check for missing objects/names in OSM for Denmark",
+  "main": ".",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSM-DK/missingObjectsDK.git"
+  },
+  "author": "Jørgen Elgaard Larsen",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/OSM-DK/missingObjectsDK/issues"
+  },
+  "homepage": "https://github.com/OSM-DK/missingObjectsDK#readme",
+  "dependencies": {
+    "pg": "^7.4.3"
+  }
+}
