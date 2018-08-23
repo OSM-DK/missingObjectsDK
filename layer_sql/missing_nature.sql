@@ -42,7 +42,7 @@ where featuretype in (
  'ås'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
@@ -69,12 +69,13 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                          OR defined(p.tags, 'tidal')
                  )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
 and not exists (select 1
-                from osm_point p
+                from osm_point p, osm_names n
 		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
@@ -101,12 +102,13 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                          OR defined(p.tags, 'tidal')
                  )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
 and not exists (select 1
-                from osm_line p
+                from osm_line p, osm_names n
 		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
@@ -133,6 +135,7 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                          OR defined(p.tags, 'tidal')
                  )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 order by ST_XMin(s.way)

@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION names2hstore (hstore)
-  RETURNS hstore
+CREATE OR REPLACE FUNCTION names2array (hstore)
+  RETURNS text[]
   AS $$
   use strict;
 
@@ -13,5 +13,13 @@ CREATE OR REPLACE FUNCTION names2hstore (hstore)
       }
     }
   }
-  return $res;
+  return [keys %$res];
 $$  LANGUAGE plperl TRANSFORM FOR TYPE hstore;
+
+
+CREATE TABLE osm_names (
+  osm_id bigint,
+  name text
+);
+
+CREATE INDEX idx_osm_names_full ON osm_names (osm_id, name);

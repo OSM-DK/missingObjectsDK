@@ -5,21 +5,21 @@ where featuretype in (
                       'herregård'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where (   p.tags -> 'building' IN ('farm')
                        OR p.tags -> 'historic' IN ('manor')
                       )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
-                from osm_point p
-		where (   (   (   p.tags -> 'building' IN ('farm')
-                               OR p.tags -> 'historic' IN ('manor')
-                              )
-                           AND (p.names ? s.navn)
-                          ) OR (p.tags -> 'addr:housename' = s.navn)
+                from osm_point p, osm_names n
+		where (    p.tags -> 'building' IN ('farm')
+                        OR p.tags -> 'historic' IN ('manor')
                       )
-		 AND ST_Distance(p.geog, s.geog) < 50 )
+                 AND n.osm_id = p.osm_id
+                 AND ( n.name = s.navn OR p.tags -> 'addr:housename' = s.navn )
+                 AND ST_Distance(p.geog, s.geog) < 50 )
 order by ST_XMin(s.way)
 

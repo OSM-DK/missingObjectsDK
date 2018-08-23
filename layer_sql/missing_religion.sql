@@ -11,18 +11,20 @@ where featuretype in (
                       'synagoge'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where (   defined(p.tags, 'religion')
                        OR p.tags -> 'amenity' in ('grave_yard')
                        OR p.tags -> 'landuse' in ('cemetary')
                       )
-		 AND (p.names ? s.navn OR p.name || 'gård' = s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND (n.name = s.navn OR n.name || 'gård' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 and not exists (select 1
-                from osm_point p
+                from osm_point p, osm_names n
 		where (   defined(p.tags, 'religion')
                        OR p.tags -> 'amenity' in ('grave_yard')
                        OR p.tags -> 'landuse' in ('cemetary')
                       )
-		 AND (p.names ? s.navn OR p.name || 'gård' = s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND (n.name = s.navn OR n.name || 'gård' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 50 )

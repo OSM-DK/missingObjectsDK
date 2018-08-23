@@ -5,15 +5,17 @@ where featuretype in (
                       'vejbro'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where defined(p.tags, 'bridge')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 and not exists (select 1
-                from osm_line p
+                from osm_line p, osm_names n
 		where defined(p.tags, 'bridge')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 
 
@@ -26,14 +28,16 @@ where featuretype in (
                       'vejtunnel'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where defined(p.tags, 'tunnel')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 and not exists (select 1
-                from osm_line p
+                from osm_line p, osm_names n
 		where defined(p.tags, 'tunnel')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 

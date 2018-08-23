@@ -13,7 +13,7 @@ where featuretype in ('efterskoleUngdomsskole',
                       'uddannelsescenter'
                       'universitet')
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where p.tags -> 'amenity' in (
                                     'college',
 			 	    'school',
@@ -21,10 +21,11 @@ and not exists (select 1
                                     'language_school',
                                     'university',
                                     'research_institute')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 and not exists (select 1
-                from osm_point p
+                from osm_point p, osm_names n
 		where p.tags -> 'amenity' in (
                                     'college',
 			 	    'school',
@@ -32,5 +33,6 @@ and not exists (select 1
                                     'language_school',
                                     'university',
                                     'research_institute')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 1 )

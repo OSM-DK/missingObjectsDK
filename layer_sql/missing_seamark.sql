@@ -7,16 +7,18 @@ where featuretype in (
                       'røse'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where (   p.tags -> 'man_made' in ('beacon', 'lighthouse')
                        OR defined(p.tags, 'seamark:type')
                       )
-		 AND (p.names ? s.navn OR p.name || ' Fyr' = s.navn )
+                 AND n.osm_id = p.osm_id
+		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn )
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 and not exists (select 1
-                from osm_point p
+                from osm_point p, osm_names n
 		where (   p.tags -> 'man_made' in ('beacon', 'lighthouse')
                        OR defined(p.tags, 'seamark:type')
                       )
-		 AND (p.names ? s.navn OR p.name || ' Fyr' = s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )

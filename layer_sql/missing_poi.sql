@@ -26,7 +26,7 @@ where featuretype in (
                       'zoologiskHave'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where (   p.tags -> 'amenity' IN ('planetarium')
                        OR p.tags -> 'leisure' IN ('garden', 'park')
                        OR p.tags -> 'tourism' IN ('aquarium',
@@ -42,11 +42,12 @@ and not exists (select 1
                        OR p.tags -> 'barrier'  IN ('city_wall')
                        OR p.tags -> 'building' IN ('conservatory', 'greenhouse')
                       )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
-                from osm_point p
+                from osm_point p, osm_names n
 		where (   p.tags -> 'amenity' IN ('planetarium')
                        OR p.tags -> 'leisure' IN ('garden', 'park')
                        OR p.tags -> 'tourism' IN ('aquarium',
@@ -62,5 +63,6 @@ and not exists (select 1
                        OR p.tags -> 'barrier'  IN ('city_wall')
                        OR p.tags -> 'building' IN ('conservatory', 'greenhouse')
                       )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 20 )

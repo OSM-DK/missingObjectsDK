@@ -23,7 +23,7 @@ echo "CREATE EXTENSION postgis_topology;" | psql osm
 echo "CREATE EXTENSION HSTORE;" | psql osm
 echo "CREATE EXTENSION plperl;" | psql osm
 echo "CREATE EXTENSION hstore_plperl;" | psql osm
-psql osm < sql/names2hstore.sql
+psql osm < sql/setup.sql
 ```
 
 Then, copy `config.sh.example` to `config.sh` and edit the values:

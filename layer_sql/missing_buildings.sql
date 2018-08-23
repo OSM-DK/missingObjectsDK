@@ -7,8 +7,9 @@ where featuretype in (
                       'slot'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where defined(p.tags, 'building')
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 order by ST_XMin(s.way)

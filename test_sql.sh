@@ -2,7 +2,7 @@
 
 # Script for exporting GeoJSON layers for missing features in Denmark
 
-for sqlfile in $(ls layer_sql/*.sql); do
+for sqlfile in $(ls layer_sql/mis*.sql); do
     sqlfile=${sqlfile#*/}
     layer=${sqlfile%.sql}
     echo "Testing $layer"

@@ -10,7 +10,7 @@ where featuretype in (
                       'skadestue'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from osm_polygon p, osm_names n
 		where (   p.tags -> 'amenity' in ( 'prison',
                                                    'kindergarten',
                                                    'hospital',
@@ -19,11 +19,12 @@ and not exists (select 1
 					          )
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
-                from osm_point p
+                from osm_point p, osm_names n
 		where (   p.tags -> 'amenity' in ( 'prison',
                                                    'kindergarten',
                                                    'hospital',
@@ -32,5 +33,6 @@ and not exists (select 1
 					          )
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
-		 AND (p.names ? s.navn)
+                 AND n.osm_id = p.osm_id
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 20 )
