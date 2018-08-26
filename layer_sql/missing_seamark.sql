@@ -12,7 +12,7 @@ and not exists (select 1
                        OR defined(p.tags, 'seamark:type')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn )
+		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn OR p.tags -> 'seamark:name' = s.navn OR p.tags -> 'seamark:name' || ' Fyr' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 and not exists (select 1
                 from osm_point p, osm_names n
@@ -20,5 +20,5 @@ and not exists (select 1
                        OR defined(p.tags, 'seamark:type')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn)
+		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn OR p.tags -> 'seamark:name' = s.navn OR p.tags -> 'seamark:name' || ' Fyr' = s.navn)
 		 AND ST_Distance(p.geog, s.geog) < 100 )
