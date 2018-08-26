@@ -6,7 +6,7 @@ for sqlfile in $(ls layer_sql/*.sql); do
     sqlfile=${sqlfile#*/}
     layer=${sqlfile%.sql}
     echo "Testing $layer"
-    cat layer_sql/${sqlfile} sql/limit.sql | psql osm
+    echo "EXPLAIN (COSTS) $(cat layer_sql/${sqlfile});" | psql osm > /dev/null
 done
 
 
