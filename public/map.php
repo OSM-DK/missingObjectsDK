@@ -123,6 +123,7 @@
     <div id="spinner"><div class="html-spinner"></div><br/><span id="spinnertext">Henter data...</span></div>
 
     <script>
+      var layerName = '<?= $_GET['layer'] ?>';
 
       var attr_osm = 'Map data &copy; <a href="//openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
 
@@ -154,7 +155,7 @@
 	if (props.tags && !props.navn) {
            props = props.tags;
         }
-        let content = `<h2>${props.navn || props.name || (props['addr:street'] + ' ' + props['addr:housenumber'])}</h2>`;
+        let content = `<h2>${props.navn || props.name || props.strandnr || (props['addr:street'] + ' ' + props['addr:housenumber'])}</h2>`;
         for (let p in props) {
           content += `<b>${p}:</b> ${props[p]}<br/>`;
         }
@@ -261,7 +262,7 @@
 
 
       $('#spinner').addClass('active');
-      $.getJSON("layers/<?= $_GET['layer'] ?>.geojson", function(data) {
+      $.getJSON(`layers/${layerName}.geojson`, function(data) {
         if (data && data.features) {
           $('#spinnertext').text('Tegner kortet...');
           setTimeout( function() {
@@ -271,7 +272,7 @@
           }, 10);
         } else {
           $('#spinner').removeClass('active');
-          alert("Could not load layer <?= $_GET['layer'] ?>");
+          alert(`Could not load layer ${layerName}`);
 	}
       });
 

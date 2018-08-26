@@ -58,4 +58,28 @@ fi
 
 
 
+
+
+echo "Get redningsnumre" >> $LOGFILE
+wget -nv -O files/redningsnumre.gml -o -  'http://kort.strandnr.dk/geoserver/nobc/wfs?SERVICE=WFS&REQUEST=GetFeature&outputFormat=gml3&typeName=Redningsnummer' >> $LOGFILE
+if test $(find files/redningsnumre.gml -cmin -300)
+then
+
+   # Import redningsnumre to PostGIS
+   echo "Importing redningsnumre" >> $LOGFILE
+   PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln stednavne -skipfailures -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" files/redningsnumre.gml
+
+   echo "Creating stednavne indexes" >> $LOGFILE
+   # Create indexes
+   psql osm < sql/redningsnumre_indexes.sql >> $LOGFILE
+
+
+else
+   echo "No news from redningsnummer.dk" >> $LOGFILE
+fi
+
+
+
+
+
 echo "getDK.sh Done - $(date)"  >> $LOGFILE
