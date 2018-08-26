@@ -5,10 +5,10 @@ where featuretype in (
                      )
 and not exists (select 1
                 from osm_polygon p, osm_names n
-		where (   p.tags -> 'place' in ('peninsula, locality')
+		where (   p.tags -> 'place' in ('peninsula', 'locality')
                        OR defined(p.tags, 'boundary')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn)
+		 AND n.name = s.navn
 		 AND ST_Distance(p.geog, s.geog) < 100
                )
