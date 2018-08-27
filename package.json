@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/OSM-DK/missingObjectsDK#readme",
   "dependencies": {
+    "geojson-validation": "^0.2.1",
     "pg": "^7.4.3"
   }
 }
