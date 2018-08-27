@@ -54,7 +54,7 @@ const partLength = Math.ceil(featureCount/parts);
 
 let idx = 0;
 
-for (let start = 0; start <= featureCount; start += partLength) {
+for (let start = 0; start < featureCount; start += partLength) {
   data.features = features.slice(start, start + partLength);
 
   let file = `${fileBase}_${++idx}${fileSuffix}`;
