@@ -1,3 +1,10 @@
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION HSTORE;
+CREATE EXTENSION plperl;
+CREATE EXTENSION hstore_plperl;
+
+
 CREATE OR REPLACE FUNCTION names2array (hstore)
   RETURNS text[]
   AS $$
