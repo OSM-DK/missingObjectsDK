@@ -41,7 +41,7 @@ var data;
 try {
   data = JSON.parse(fs.readFileSync(fileName));
 } catch ( e ) {
-  console.error("Could not read GeoJSON file", e);
+  console.error("Could not read and parse GeoJSON file '${fileName}': ", e);
   process.exit(6);
 }
 

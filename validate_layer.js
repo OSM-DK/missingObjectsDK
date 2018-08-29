@@ -32,7 +32,7 @@ if (! fs.existsSync(fileName)) {
 
 const stats = fs.statSync(fileName);
 if (!stats || stats.size < 1) {
-  console.error(`File ${fileName} is only ${stats.size} byte.`);
+  console.error(`File ${fileName} is only ${stats.size} bytes.`);
   process.exit(30);
 }
 
@@ -40,7 +40,7 @@ var content;
 try {
   content = fs.readFileSync(fileName);
 } catch ( e ) {
-  console.error(`Could not read GeoJSON file ${fileName}`, e);
+  console.error(`Could not read GeoJSON file '${fileName}'`, e);
   process.exit(6);
 }
 

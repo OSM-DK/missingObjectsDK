@@ -2,10 +2,5 @@
 
 ./getDK.sh && \
 ./make_layers.sh && \
-./split_layer.js layers/missing_buildings.geojson 8 && \
-./split_layer.js layers/missing_nature.geojson 6 && \
-./split_layer.js layers/missing_landuse.geojson 8 && \
-./split_layer.js layers/missing_dwellings.geojson 4 && \
-./split_layer.js layers/missing_farms.geojson 8 && \
-./split_layer.js layers/lost_addresses.geojson 4 && \
+./split_layers.sh missing_buildings:8 missing_nature:6 missing_landuse:8 missing_dwellings:4 missing_farms:8 lost_addresses:4 && \
 ./copy_layers.sh

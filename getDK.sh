@@ -34,7 +34,7 @@ fi
 
 # Get official Danish placenames from https://download.kortforsyningen.dk/content/stednavne and unzip it.
 echo "Get stednavne" >> $LOGFILE
-wget -nv -P files -o - -N ftp://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip >> $LOGFILE
+wget -nv -P files -o - -N --ftps-implicit ftps://${KORTFORSYNINGEN_USER}:${KORTFORSYNINGEN_PW}@ftp.kortforsyningen.dk/stednavne/stednavne/GML/DK_GML_UTM32-EUREF89.zip >> $LOGFILE
 if test $(find files/DK_GML_UTM32-EUREF89.zip -cmin -300)
 then
    echo "Unzip stednavne" >> $LOGFILE
@@ -67,9 +67,9 @@ then
 
    # Import redningsnumre to PostGIS
    echo "Importing redningsnumre" >> $LOGFILE
-   PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln stednavne -skipfailures -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" files/redningsnumre.gml
+   PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln redningsnumre -skipfailures -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" files/redningsnumre.gml
 
-   echo "Creating stednavne indexes" >> $LOGFILE
+   echo "Creating redningsnumre indexes" >> $LOGFILE
    # Create indexes
    psql osm < sql/redningsnumre_indexes.sql >> $LOGFILE
 
