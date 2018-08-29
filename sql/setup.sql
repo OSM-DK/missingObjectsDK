@@ -12,7 +12,7 @@ CREATE OR REPLACE FUNCTION names2array (hstore)
 
   my $tags = shift @_;
   my $res = {};
-  foreach my $field ( qw(name alt_name int_name loc_name old_name lock_name) ) {
+  foreach my $field ( qw(name alt_name int_name loc_name old_name lock_name seamark:name) ) {
     if ($tags->{$field}) {
       foreach my $val ( split(/;/, $tags->{$field}) ) {
         $val =~ s/(^\s+|\s+$)//g;
@@ -29,4 +29,5 @@ CREATE TABLE osm_names (
   name text
 );
 
-CREATE INDEX idx_osm_names_full ON osm_names (osm_id, name);
+CREATE INDEX idx_osm_names_name ON osm_names (name);
+CREATE INDEX idx_osm_names_osm_id ON osm_names (osm_id);

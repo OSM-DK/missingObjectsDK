@@ -10,6 +10,10 @@ CREATE INDEX idx_osm_point_geog ON osm_point USING gist(geog);
 CREATE INDEX idx_osm_line_geog ON osm_line USING gist(geog);
 CREATE INDEX idx_osm_polygon_geog ON osm_polygon USING gist(geog);
 
+CREATE INDEX idx_osm_point_osm_id   ON osm_point   (osm_id);
+CREATE INDEX idx_osm_line_osm_id    ON osm_line    (osm_id);
+CREATE INDEX idx_osm_polygon_osm_id ON osm_polygon (osm_id);
+
 CREATE INDEX idx_osm_point_tags ON osm_point USING gist(tags);
 CREATE INDEX idx_osm_polygon_tags ON osm_polygon USING gist(tags);
 CREATE INDEX idx_osm_line_tags ON osm_line USING gist(tags);
