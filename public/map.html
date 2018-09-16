@@ -206,25 +206,16 @@
                               opacity: 0.6,
                             });
 
-      const addPopUp = (feature, layer) => {
-        let props = feature.properties;
-	if (props.tags && !props.navn) {
-           props = props.tags;
-        }
-        let content = `<h2>${props.navn || props.name || props.strandnr || (props['addr:street'] + ' ' + props['addr:housenumber'])}</h2>`;
-        for (let p in props) {
-          content += `<b>${p}:</b> ${props[p]}<br/>`;
-        }
-        layer.bindPopup(content);
-      };
-
-
       var map = L.map('map', {
                                  center: new L.LatLng(56.00,10.83),
                                  zoom: 8,
                                  layers: [base],
 
                              });
+
+      var bbox2zoom = function(bbox) {
+        return 13;
+      };
 
       var editors = {
             Id: { url: 'https://www.openstreetmap.org/edit?editor=id#map=',
@@ -235,7 +226,14 @@
                         map.getCenter().wrap().lat,
                         map.getCenter().wrap().lng
                       ].join('/');
-                  }
+                  },
+                  buildBBoxUrl: function (bbox) {
+                    return editors.Id.url + [
+                       bbox2zoom(bbox),
+                       (bbox.top + bbox.bottom / 2),
+                       (bbox.right + bbox.right / 2)
+                    ].join('/')
+                 }
             },
             Josm: {
                    url: 'http://127.0.0.1:8111/load_and_zoom',
@@ -249,7 +247,10 @@
                             top: bounds.getNorthWest().wrap().lat,
                             bottom: bounds.getSouthEast().wrap().lat
                         });
-                    }
+                   },
+                   buildBBoxUrl: function (bbox) {
+                     return editors.Josm.url + L.Util.getParamString(bbox)
+                   }
             }
       };
 
@@ -261,6 +262,64 @@
         }
       };
 
+
+      var geometry2bbox = function(geom, padding) {
+	if (!geom || !geom.coordinates || !Array.isArray(geom.coordinates)) {
+          return null;
+        }
+        var normalizeCoordinates = function(coordinates, existing) {
+          var arr = existing || [];
+          
+	  if (! Array.isArray(coordinates[0]) ) {
+            arr.push(coordinates);
+          } else {
+            for (var i=0; i < coordinates.length; i++) {
+              normalizeCoordinates( coordinates[i], arr );
+            }
+          }
+
+          return arr;
+        }
+
+        var coords = normalizeCoordinates(geom.coordinates);
+
+        var res = { 'top'   : coords[0][1],
+                    'bottom': coords[0][1],
+                    'left'  : coords[0][0],
+                    'right' : coords[0][0]
+                  };
+        for (var i = 1; i < coords.length; i++) {
+          var x = coords[i][0];
+          var y = coords[i][1];
+          if (x < res.left) {
+            res.left = x;
+          }
+          if (x > res.right) {
+            res.right = x;
+          }
+          if (y < res.bottom) {
+            res.bottom = y;
+          }
+          if (y > res.top) {
+            res.top = y;
+          }
+        }
+        if (padding && padding > 0) {
+          res.left -= padding;
+          res.right += padding;
+          res.top += padding;
+          res.bottom -= padding;
+        }
+        return res;
+      };
+
+      var openEditorBBox = function(editor, bbox) {
+	var openUrl = editor.buildBBoxUrl(bbox);
+        var w = window.open(openUrl);
+        if (editor.timeout) {
+            setTimeout(function() {w.close();}, editor.timeout);
+        }
+      };
 
       var editorControl = L.Control.extend ({
         options: { position: 'topright'},
@@ -297,6 +356,22 @@
         seamarks.addTo(map);
       }
       var overlays   = { 'Sømærker': seamarks };
+
+      const addPopUp = (feature, layer) => {
+        let props = feature.properties;
+	if (props.tags && !props.navn) {
+           props = props.tags;
+        }
+        let content = `<h2>${props.navn || props.name || props.strandnr || props.ref || (props['addr:street'] + ' ' + props['addr:housenumber'])}</h2>`;
+        for (let p in props) {
+          content += `<b>${p}:</b> ${props[p]}<br/>`;
+        }
+        var bbox = geometry2bbox(feature.geometry, 0.0015);
+        content += `<br/><button onclick="openEditorBBox(editors.Josm, ${ JSON.stringify(bbox).replace(/"/g, '&quot;') });">JOSM</button>`;
+        layer.bindPopup(content);
+      };
+
+
 
       var pointMaker = function(idx) {
         return function(feature, latlng) {
