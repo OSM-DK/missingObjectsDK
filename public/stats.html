@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Statistik over manglende navne i OpenStreetMap i Danmark</title>
+</head>
+
+<body>
+<header>
+  <h1>Statistik</h1>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</header>
+<section>
+<h2>Manglende objekter over tid</h2>
+
+<div style="position: relative; height: 60%; width: auto">
+  <canvas id="statistik"></canvas>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+
+<script src="node_modules/moment/moment.js"></script>
+<script src="node_modules/object-hash/dist/object_hash.js"></script>
+
+<script src="node_modules/chart.js/dist/Chart.min.js"></script>
+<script src="parseparams.js"></script>
+
+<script>
+  var dates = [];
+  var dateformat = 'YYYYMMDD';
+  var now = moment();
+  if (params['monthdays']) {
+    var monthdays = params[monthdays];
+    if (! Array.isArray(monthDays)) {
+      monthdays = [monthdays];
+    }
+    var months = params['months'] || 12;
+    
+    var current = now.date(1);
+    // current month
+    for (var i = monthdays.length - 1; i >= 0; i--) {
+      if (monthdays[i] <= now.date()) {
+        dates.push(current.date(monthdays[i]).format(dateformat));
+      }
+    }
+
+    for (var i = 1; i < months; i++) {
+      current = now.date(1).subtract(i, 'months');
+      for (var i = monthdays.length - 1; i >= 0; i--) {
+        dates.push(current.date(monthdays[i]).format(dateformat));
+      }
+    }
+  } else {
+    var daysinterval = params['daysinterval'] || 1;
+    var intervals = params['intervals'] || 30;
+    for (i = 0; i < intervals; i++) {
+       dates.push(moment().subtract(i * daysinterval, 'days').format(dateformat));
+    }
+
+  } 
+
+  var ctx = document.getElementById("statistik");
+
+  var chart = new Chart(ctx, {
+    type: 'line',
+    data: {},
+    options: {
+      responsive: true,
+    }
+  });
+
+
+  var getColor = function(str) {
+    return '#' + objectHash.MD5(str).substring(0,6);
+  };
+
+  var loadStats = function(dates) {
+    var missing = dates.length;
+    var incoming = {};
+
+    var allDone = function(){ 
+      var layers = {};
+      var stats = { labels: [],
+                    datasets: []
+                  };
+      for (var i = 0; i < dates.length; i++) {
+        var date = dates[i];
+        if (incoming[date]) {
+           stats.labels.push(incoming[date].showDate || date);
+           for (var layerName of Object.keys(incoming[date].stats)) {
+              if (! layers[layerName] ) {
+		layers[layerName] =  {};
+              }
+              layers[layerName][date] = incoming[date].stats[layerName];
+           }
+        }
+      }
+      for (var layerName of Object.keys(layers)) {
+        var dataset = { label: layerName, data: [], fill: false, borderColor: getColor(layerName) };
+        for (var i = 0; i < dates.length; i++) {
+          var date = dates[i];
+          if (!incoming[date]) {
+            continue;
+          }
+          dataset.data.push(layers[layerName][date] || 0);
+        }
+        stats.datasets.push(dataset);
+      }
+      chart.data = stats;
+      chart.update();
+    };
+
+
+
+    var getDateStats = function(date) {
+      $.getJSON(`stats/${date}.json`)
+      .done( function(data) {
+         incoming[date] = data;
+      })
+      .always( function() {
+         missing--;
+         if (missing == 0) {
+           allDone();
+         }
+      });
+    };
+
+    for (var i = 0; i < dates.length; i++) {
+      getDateStats(dates[i]);
+    }
+  }  
+
+
+  loadStats(dates);
+
+</script>
+
+
+
+</section>
+</body>
+</html>
