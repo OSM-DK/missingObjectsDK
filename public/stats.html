@@ -13,7 +13,7 @@
 <section>
 <h2>Manglende objekter over tid</h2>
 
-<div style="position: relative; height: 60%; width: auto">
+<div style="position: relative; height: 50%; width: auto">
   <canvas id="statistik"></canvas>
 </div>
 
@@ -105,7 +105,7 @@
           if (!incoming[date]) {
             continue;
           }
-          dataset.data.push(layers[layerName][date] || 0);
+          dataset.data.push(layers[layerName][date]);
         }
         stats.datasets.push(dataset);
       }
@@ -136,8 +136,36 @@
 
   loadStats(dates);
 
-</script>
+  var hideAllDatasets = function(status) {
+    for (var i = 0; i < chart.data.datasets.length; i++) {
+      var meta = chart.getDatasetMeta(i);
+      var ds = chart.data.datasets[i];
+      ds.hidden = status;
+      meta.hidden = status;
+    }
+    chart.update();
+  };
 
+  var toggleAllDatasets = function() {
+    var allHidden = true;
+    var allShown = true;
+    for (var i = 0; i < chart.data.datasets.length; i++) {
+      var meta = chart.getDatasetMeta(i);
+      if (meta.hidden) {
+         allShown = false;
+      } else {
+         allHidden = false;
+      }
+    }
+    if (allShown) {
+      hideAllDatasets(true);
+    } else {
+      hideAllDatasets(false);
+    }
+  };
+
+</script>
+<button onclick="toggleAllDatasets()">Alle</button>
 
 
 </section>
