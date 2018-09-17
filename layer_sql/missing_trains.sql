@@ -27,5 +27,5 @@ and not exists (select 1
                        OR p.tags -> 'public_transport' IN ('station')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR s.navn = n.name || ' Station')
+		 AND (n.name = s.navn OR s.navn = n.name || ' Station' OR s.navn = n.name || ' Trinbræt')
 		 AND ST_Distance(p.geog, s.geog) < 500 )
