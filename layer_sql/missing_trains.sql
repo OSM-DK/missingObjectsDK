@@ -23,8 +23,9 @@ and not exists (select 1
 
 and not exists (select 1
                 from osm_point p, osm_names n
-		where (   p.tags -> 'railway' IN ('halt', 'station')
-                       OR p.tags -> 'public_transport' IN ('station')
+		where (   p.tags -> 'railway' IN ('halt', 'station', 'stop')
+                       OR p.tags -> 'railway:historic' IN ('halt', 'station', 'station_site')
+                       OR p.tags -> 'public_transport' IN ('station', 'stop_position')
                       )
                  AND n.osm_id = p.osm_id
 		 AND (n.name = s.navn OR s.navn = n.name || ' Station' OR s.navn = n.name || ' Trinbræt')
