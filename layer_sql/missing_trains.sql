@@ -18,7 +18,7 @@ and not exists (select 1
                 from osm_line p, osm_names n
 		where p.tags -> 'railway' IN ('narrow_gauge', 'preserved', 'rail', 'subway', 'light_rail', 'disused', 'abandoned', 'tram')
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR s.navn = p.tags -> 'operator')
+		 AND ((n.name = s.navn) OR (s.navn = p.tags -> 'operator'))
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1

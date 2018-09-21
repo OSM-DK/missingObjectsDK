@@ -44,7 +44,7 @@ and not exists (select 1
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 20 )
+		 AND ST_Distance(p.geog, s.geog) < 200 )
 
 and not exists (select 1
                 from osm_point p, osm_names n
@@ -65,4 +65,4 @@ and not exists (select 1
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 20 )
+		 AND ST_Distance(p.geog, s.geog) < 200 )
