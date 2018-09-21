@@ -61,6 +61,7 @@
     }
 
   } 
+  dates.reverse();
 
   var ctx = document.getElementById("statistik");
 
@@ -99,7 +100,7 @@
         }
       }
       for (var layerName of Object.keys(layers)) {
-        var dataset = { label: layerName, data: [], fill: false, borderColor: getColor(layerName) };
+        var dataset = { label: layerName, data: [], fill: false, lineTension: 0, borderColor: getColor(layerName) };
         for (var i = 0; i < dates.length; i++) {
           var date = dates[i];
           if (!incoming[date]) {
