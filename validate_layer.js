@@ -6,6 +6,7 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const GJV = require('geojson-validation');
 
 
@@ -53,8 +54,25 @@ try {
 }
 
 if (!data || !data.features || data.features.length < 1) {
-  console.error(`GeoJSON file ${fileName} has no features`);
-  process.exit(71);
+  let ok_nofeatures = false;
+  const noFeaturesFile = path.join(__dirname, 'ok_nofeatures');
+  const baseName = path.basename(fileName, path.extname(fileName));
+
+  if (fs.existsSync(noFeaturesFile)) {
+    try {
+      const noFeaturesText = fs.readFileSync(noFeaturesFile, { encoding: 'utf8' });
+      if (noFeaturesText.match(`\\b${baseName}\\b`)) {
+        ok_nofeatures = true;
+      }
+    } catch (e) {
+      console.error(`Could not read ok_nofeature`, e);
+    }
+  }
+
+  if (! ok_nofeatures) {
+    console.error(`GeoJSON file ${fileName} has no features`);
+    process.exit(71);
+  }
 }
 
 
