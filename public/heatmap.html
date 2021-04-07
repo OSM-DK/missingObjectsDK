@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Missings objects in OSM</title>
+      <link rel="stylesheet"
+             href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+            crossorigin=""/>
+ 
+      <style>
+      body {
+      padding: 0;
+      margin: 0;
+      }
+      html, body, #map {
+      height: 99%;
+      }
+
+      #spinner {
+	display: none;
+      }
+      #spinner.active {
+        text-align: center;
+	display: block;
+	background: white;
+        border: 1px solid #ddd;
+        position:absolute;
+        top:40%;
+	left:40%;
+        padding: 20px;
+        z-index: 1000;
+      }
+      .html-spinner {
+          margin: auto;
+	  width:40px;
+  	  height:40px;
+  	  border:4px solid #ccc;
+  	  border-top:4px solid blue;
+   	  border-radius:50%;
+          -webkit-transition-property: -webkit-transform;
+          -webkit-transition-duration: 1.2s;
+          -webkit-animation-name: rotate;
+          -webkit-animation-iteration-count: infinite;
+          -webkit-animation-timing-function: linear;
+
+          -moz-transition-property: -moz-transform;
+          -moz-animation-name: rotate;
+          -moz-animation-duration: 1.2s;
+          -moz-animation-iteration-count: infinite;
+          -moz-animation-timing-function: linear;
+
+          transition-property: transform;
+          animation-name: rotate;
+          animation-duration: 1.2s;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+      }
+
+      @-webkit-keyframes rotate {
+         from {-webkit-transform: rotate(0deg);}
+         to {-webkit-transform: rotate(360deg);}
+      }
+
+      @-moz-keyframes rotate {
+        from {-moz-transform: rotate(0deg);}
+        to {-moz-transform: rotate(360deg);}
+      }
+
+      @keyframes rotate {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+      }
+
+
+      .editor-container {
+         background: none repeat scroll 0 0 #F8F8F9;
+         border: 1px solid #888888;
+         border-radius: 5px 5px 5px 5px;
+         box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+
+      .editor-container a.osm-editor {
+         display: inline-block;
+         height: 36px;
+         min-width: 36px;
+         text-align: center;
+         line-height: 36px;
+         color: #333;
+         padding: 0 5px;
+         text-decoration: none;
+         font-family: sans-serif;
+      }
+
+      a.osm-editor:hover {
+         box-shadow: 0 0 2px 0 black inset;
+      }
+
+
+     .point-marker span {
+        background-color: #33f;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: block;
+        left: -0.75rem;
+        top: -0.75rem;
+        position: relative;
+        border-radius: 1.5rem 1.5rem 0;
+        transform: rotate(45deg);
+        border: 1px solid #fff
+      }
+    </style>
+
+  </head>
+
+  <body bgcolor="#ffffff" text="#000000" link="#000099" vlink="#660000">
+    <div id="pageheader"></div>
+    <div id="map"></div>
+
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+    <script src="leaflet.layergroup.conditional.js"></script>
+    <script src="leaflet-heat.js"></script>
+
+    <div id="spinner"><div class="html-spinner"></div><br/><span id="spinnertext">Henter data...</span></div>
+
+    <script src="parseparams.js"></script>
+    <script src="map.js"></script>
+  </body>
+</html>
