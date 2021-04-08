@@ -3,7 +3,7 @@
 # Script for making heatmap points
 source config.sh
 
-echo "Starting layers2points.sh $(date)" >> $LOGFILE
+echo "Starting make_heatmaps.sh $(date)" >> $LOGFILE
 
 for layer in "$@"; do
     layerpath="layers/${layer}.geojson"
