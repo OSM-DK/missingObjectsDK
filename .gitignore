@@ -3,4 +3,6 @@ layers
 config.sh
 node_modules
 public/stats
-
+public/leaflet-heat.js
+public/leaflet.layergroup.conditional.js
+		
