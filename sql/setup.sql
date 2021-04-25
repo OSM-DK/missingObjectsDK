@@ -12,7 +12,7 @@ CREATE OR REPLACE FUNCTION names2array (hstore)
 
   my $tags = shift @_;
   my $res = {};
-  foreach my $field ( qw(name alt_name int_name loc_name old_name lock_name seamark:name) ) {
+  foreach my $field ( qw(name alt_name int_name loc_name old_name lock_name seamark:name official_name name:da alt_name:da) ) {
     if ($tags->{$field}) {
       foreach my $val ( split(/;/, $tags->{$field}) ) {
         $val =~ s/(^\s+|\s+$)//g;
