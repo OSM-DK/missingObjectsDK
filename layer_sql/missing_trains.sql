@@ -11,7 +11,9 @@ and not exists (select 1
                        OR p.tags -> 'public_transport' IN ('station', 'stop_area')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR s.navn = n.name || ' Station') 
+		 AND (   n.name = s.navn
+                      OR s.navn = n.name || ' Station'
+                     )
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 and not exists (select 1
@@ -28,5 +30,10 @@ and not exists (select 1
                        OR p.tags -> 'public_transport' IN ('station', 'stop_position')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR (s.navn = n.name || ' Station') OR (s.navn = n.name || ' Trinbræt'))
+		 AND (   n.name = s.navn
+                      OR (s.navn = n.name || ' Station')
+                      OR (s.navn = n.name || ' Metro Station')
+                      OR (s.navn = n.name || ' Trinbræt Station')
+                      OR (s.navn = n.name || ' Trinbræt')
+                    )
 		 AND ST_Distance(p.geog, s.geog) < 500 )
