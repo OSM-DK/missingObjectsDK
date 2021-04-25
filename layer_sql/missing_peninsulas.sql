@@ -13,6 +13,8 @@ and not exists (select 1
 		where (   p.tags -> 'natural' in (
                                     'sand',
                                     'cape',
+                                    'isthmus',
+                                    'peninsula',
                                     'reef'
                                    )
                          OR p.tags -> 'place' in (
@@ -21,7 +23,7 @@ and not exists (select 1
                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 
 and not exists (select 1
@@ -29,6 +31,8 @@ and not exists (select 1
 		where (   p.tags -> 'natural' in (
                                     'sand',
                                     'cape',
+                                    'isthmus',
+                                    'peninsula',
                                     'reef'
                                    )
                          OR p.tags -> 'place' in (
@@ -37,7 +41,7 @@ and not exists (select 1
                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
 
 
 and not exists (select 1
@@ -45,6 +49,8 @@ and not exists (select 1
 		where (   p.tags -> 'natural' in (
                                     'sand',
                                     'cape',
+                                    'isthmus',
+                                    'peninsula',
                                     'reef'
                                    )
                          OR p.tags -> 'place' in (
@@ -53,4 +59,4 @@ and not exists (select 1
                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 100 )
