@@ -5,7 +5,8 @@ where featuretype in (
  'bugt',
  'fjord',
  'nor'
-                     )
+ )
+and s.navn not in ('Limfjorden', 'Isefjord')
 and not exists (select 1
                 from osm_polygon p, osm_names n
 		where (   p.tags -> 'natural' in (
