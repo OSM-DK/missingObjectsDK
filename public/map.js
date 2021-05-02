@@ -29,6 +29,14 @@
         }
       }
 
+      var feature2tags = {};
+      var features = [];
+
+      const props2name = function (props){
+         return props.navn || props.name || props.strandnr || props.ref || (props['addr:street'] + ' ' + props['addr:housenumber']);
+      };
+
+
       // Set up base map
       var currentZoom = 8;
 
@@ -70,6 +78,19 @@
 				   ]);
       };
 
+
+
+      var openEditorBBox = function(editor, idx) {
+
+	var openUrl = editor.buildBBoxUrl(bbox);
+        var w = window.open(openUrl);
+        if (editor.timeout) {
+            setTimeout(function() {w.close();}, editor.timeout);
+        }
+      };
+
+
+
       // Setup editors
       var editors = {
             Id: { url: 'https://www.openstreetmap.org/edit?editor=id#map=',
@@ -81,12 +102,15 @@
                         map.getCenter().wrap().lng
                       ].join('/');
                   },
-                  buildBBoxUrl: function (bbox) {
-                    return editors.Id.url + [
-                       bbox2zoom(bbox),
-                       (bbox.top + bbox.bottom) / 2,
-                       (bbox.left + bbox.right) / 2
-                    ].join('/')
+                  openFunc: function(idx) {
+		      let feature = features[idx];
+		      var bbox = geometry2bbox(feature.geometry, 0.0015);
+		      var openUrl = editors.Id.url + [
+                                                       bbox2zoom(bbox),
+                                                       (bbox.top + bbox.bottom) / 2,
+                                                       (bbox.left + bbox.right) / 2
+                                                     ].join('/');
+		      window.open(openUrl);
                  }
             },
             Josm: {
@@ -102,9 +126,32 @@
                             bottom: bounds.getSouthEast().wrap().lat
                         });
                    },
-                   buildBBoxUrl: function (bbox) {
-                     return editors.Josm.url + L.Util.getParamString(bbox)
-                   }
+		   openFunc: function(idx) {
+                       const feature = features[idx];
+		       const bbox = geometry2bbox(feature.geometry, 0.0015);
+		       const openUrl = editors.Josm.url + L.Util.getParamString(bbox);
+		       return $.getJSON(openUrl);
+		       
+		   },
+                   addFunc: function(idx) {
+		       const feature = features[idx];
+		       const props = feature.properties;
+		       const name = props2name(props);
+		       let tagList = [...(feature2tags[props.featuretype] || [])];
+		       tagList.push(`name=${name}`);
+
+		       const coords = normalizeCoordinates(feature.geometry.coordinates);
+		       let url = 'http://127.0.0.1:8111/';
+		       if (coords.length == 1) {
+			   url += `add_node?lon=${coords[0][1]}&lat=${coords[0][0]}`;
+                       } else {
+			   url += 'add_way?way='
+			       + coords.map((c) => `${c[1]},${c[0]}`).join(';');
+		       }
+		       
+		       url += '&addtags=' + encodeURIComponent(tagList.join("|"));
+		       $.getJSON(url).then(() => editors.Josm.openFunc(idx));
+		   },
             }
       };
 
@@ -116,17 +163,11 @@
         }
       };
 
-      // Helper function to find the bounding box for a geometry
-      var geometry2bbox = function(geom, padding) {
-	if (!geom || !geom.coordinates || !Array.isArray(geom.coordinates)) {
-          return null;
-        }
+      // Helper function that flattens coordinates and lists of coordinates to a list of coordinates in one level
+      var normalizeCoordinates = function(coordinates, existing) {
+        var arr = existing || [];
 
-	// Helper function that flattens coordinates and lists of coordinates to a list of coordinates in one level
-        var normalizeCoordinates = function(coordinates, existing) {
-          var arr = existing || [];
-
-	  if (! Array.isArray(coordinates[0]) ) {
+          if (! Array.isArray(coordinates[0]) ) {
             arr.push(coordinates);
           } else {
             for (var i=0; i < coordinates.length; i++) {
@@ -134,7 +175,14 @@
             }
           }
 
-          return arr;
+        return arr;
+      }
+
+
+      // Helper function to find the bounding box for a geometry
+      var geometry2bbox = function(geom, padding) {
+	if (!geom || !geom.coordinates || !Array.isArray(geom.coordinates)) {
+          return null;
         }
 
         var coords = normalizeCoordinates(geom.coordinates);
@@ -145,7 +193,7 @@
                     'left'  : coords[0][0],
                     'right' : coords[0][0]
                   };
-	  
+
 	// Loop through all coordinates and adjust the bbox to fit all
         for (var i = 1; i < coords.length; i++) {
           var x = coords[i][0];
@@ -163,7 +211,7 @@
             res.top = y;
           }
         }
-	  
+
 	// Add padding
         if (padding && padding > 0) {
           res.left -= padding;
@@ -172,15 +220,6 @@
           res.bottom -= padding;
         }
         return res;
-      };
-
-
-      var openEditorBBox = function(editor, bbox) {
-	var openUrl = editor.buildBBoxUrl(bbox);
-        var w = window.open(openUrl);
-        if (editor.timeout) {
-            setTimeout(function() {w.close();}, editor.timeout);
-        }
       };
 
       var editorControl = L.Control.extend ({
@@ -220,21 +259,25 @@
       }
       var overlays   = { 'Sømærker': seamarks };
 
-      // Function to add popups to all features 
+      // Function to add popups to all features
       const addPopUp = (feature, layer) => {
+        const idx = features.length;
+        features.push(feature);
+
         let props = feature.properties;
 	if (props.tags && !props.navn) {
            props = props.tags;
         }
-        let content = `<h2>${props.navn || props.name || props.strandnr || props.ref || (props['addr:street'] + ' ' + props['addr:housenumber'])}</h2>`;
+        let content = `<h2>${props2name(props)}</h2>`;
         for (let p in props) {
           content += `<b>${p}:</b> ${props[p]}<br/>`;
         }
-        var bbox = geometry2bbox(feature.geometry, 0.0015);
         for (edName in editors) {
 	   var ed = editors[edName];
-           content += `<br/><button onclick="openEditorBBox(editors['${edName}'], ${
-					     JSON.stringify(bbox).replace(/"/g, '&quot;') });">${ed.displayName}</button>`;
+           content += `<br/><button onclick="editors['${edName}'].openFunc(${idx});">${ed.displayName}</button>`;
+           if (ed.addFunc && props.featuretype && feature2tags[props.featuretype]) {
+             content += `<button onclick="editors['${edName}'].addFunc(${idx})">+</button>`;
+           }
 	}
         layer.bindPopup(content);
       };
@@ -254,7 +297,7 @@
                                          labelAnchor: [-6, 0],
                                          popUpAnchor: [0, -36],
                                          html: `<span style="background-color: ${layers[i].pointColor}" />`});
-        
+
         layers[i].geoJsonLayer = new L.GeoJSON(null, { onEachFeature: addPopUp,
                                                 style: { "color": layers[i].lineColor,
                                                          "weight": 5,
@@ -268,7 +311,7 @@
                                                         0.3: 'lime',
                                                         0.6: 'yellow',
                                                         0.9: 'red',
-                                                        1: 'black', 
+                                                        1: 'black',
                                                      },
                                                      maxZoom: params.heatlevel,
                                                      max: 0.5,
@@ -279,7 +322,7 @@
                                  .addConditionalLayer( function(zoom){ return zoom > params.heatlevel  }, layers[i].geoJsonLayer)
                                  .addConditionalLayer( function(zoom){ return zoom <= params.heatlevel }, layers[i].heatLayer);
 
-          
+
         } else {
           layers[i].layer = layers[i].geoJsonLayer;
         }
@@ -345,16 +388,23 @@
         }
       }
 
+      var getFeaturePromise = $.getJSON('feature2tags.json')
+         .then((data) => {
+	   feature2tags = data;
+         })
+         .catch((err) => alert(`Kunne ikke hente feature-liste:\n${err}`));
 
       var gotGJLayer = function(idx, data) {
         if (data && data.features) {
           layers[idx].geoJsonLoaded = true;
           handleChanges();
-          setTimeout( function() {
-            layers[idx].geoJsonLayer.addData(data);
-            layers[idx].geoJsonRendered = true;
-            handleChanges();
-          }, 10);
+          getFeaturePromise.then(() =>
+            setTimeout( function() {
+              layers[idx].geoJsonLayer.addData(data);
+              layers[idx].geoJsonRendered = true;
+              handleChanges();
+            }, 10)
+          );
         } else {
           layers[idx].hasError = true;
           handleChanges();
