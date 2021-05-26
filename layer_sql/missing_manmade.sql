@@ -17,6 +17,7 @@ and not exists (select 1
 		where (   p.tags -> 'man_made' in ('water_well', 'watermill', 'dyke', 'observatory', 'wind_mill')
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'amenity' in ('driving_school', 'rescue_station')
+                       or p.tags -> 'type' in ('site')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
