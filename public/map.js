@@ -341,6 +341,15 @@
 
       L.control.layers( baseLayers, overlays).addTo(map);
 
+      const zoomToFeature = function(f) {
+         const feature = features.filter(f)[0];
+         if (feature) {
+           const bbox = geometry2bbox(feature.geometry);
+           map.fitBounds([[bbox.top, bbox.left], [bbox.bottom, bbox.right]]);
+         }
+      }
+
+      let initializing = true;
 
       // Change handler
       var handleChanges = function() {
@@ -385,6 +394,12 @@
            $('#spinner').addClass('active');
         } else {
            $('#spinner').removeClass('active');
+           if (initializing) {
+             initializing = false;
+             if (params.featureid) {
+               zoomToFeature(f => f.properties.featureid == params.featureid);
+             }
+           }
         }
       }
 
@@ -469,3 +484,4 @@
         layers[i].layer.on('add', handleChanges);
         layers[i].layer.on('remove', handleChanges);
       }
+
