@@ -17,8 +17,9 @@ and not exists (select 1
                 from osm_polygon p, osm_names n
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall', 'golf_course')
                        OR p.tags -> 'highway' IN ('racetrack')
+                       OR p.tags -> 'club' IN ('sport')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
@@ -28,8 +29,9 @@ and not exists (select 1
                 from osm_point p, osm_names n
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall', 'golf_course')
                        OR p.tags -> 'highway' IN ('racetrack')
+                       OR p.tags -> 'club' IN ('sport')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
@@ -39,6 +41,7 @@ and not exists (select 1
                 from osm_line p, osm_names n
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'leisure' IN ('pitch', 'track')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall', 'golf_course')
                        OR p.tags -> 'highway' IN ('racetrack')
                       )
                  AND n.osm_id = p.osm_id
