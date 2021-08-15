@@ -35,4 +35,4 @@ and not exists (select 1
                                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 100 )
+		 AND ST_Distance(p.geog, s.geog) < 500 )

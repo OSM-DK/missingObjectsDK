@@ -13,11 +13,16 @@ and not exists (select 1
                                     'water',
                                     'valley'
                                    )
-                         OR defined(p.tags, 'tidal')
+                       OR p.tags -> 'landuse' in (
+                                      'basin'
+                                   )
+                       OR defined(p.tags, 'tidal')
+                       OR p.tags -> 'sport' = 'swimming'
+                       OR p.tags -> 'amenity' = 'public_bath'
                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 10 )
 
 
 and not exists (select 1
@@ -27,11 +32,13 @@ and not exists (select 1
                                     'water',
                                     'valley'
                                    )
-                         OR defined(p.tags, 'tidal')
+                       OR defined(p.tags, 'tidal')
+                       OR p.tags -> 'sport' = 'swimming'
+                       OR p.tags -> 'amenity' = 'public_bath'
                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 150 )
 
 
 and not exists (select 1
@@ -41,8 +48,10 @@ and not exists (select 1
                                     'water',
                                     'valley'
                                    )
-                         OR defined(p.tags, 'tidal')
+                       OR p.tags -> 'sport' = 'swimming'
+                       OR p.tags -> 'amenity' = 'public_bath'
+                       OR defined(p.tags, 'tidal')
                  )
                  AND n.osm_id = p.osm_id
 		 AND n.name = s.navn
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_Distance(p.geog, s.geog) < 20 )
