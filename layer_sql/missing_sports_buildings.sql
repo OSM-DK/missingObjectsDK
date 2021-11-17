@@ -1,12 +1,15 @@
-select way, ogc_fid, gml_id, objectid, idraetsanlaegstype, navn_1_skrivemaade as  navn
-from stednavne.idraetsanlaeg s
+select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as  navn
+from stednavne.bygning s
 where
+   bygningstype in (
+                     'hal'
+                    )
+and
    not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall', 'golf_course')
-                       OR p.tags -> 'highway' IN ('racetrack')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall')
                        OR p.tags -> 'club' IN ('sport')
                       )
                  AND n.osm_id = p.osm_id
@@ -18,8 +21,7 @@ and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
 		where (   defined(p.tags, 'sport')
                        OR p.tags -> 'building' = 'stadium'
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall', 'golf_course')
-                       OR p.tags -> 'highway' IN ('racetrack')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall')
                        OR p.tags -> 'club' IN ('sport')
                       )
                  AND n.osm_id = p.osm_id
@@ -30,8 +32,7 @@ and not exists (select 1
 and not exists (select 1
                 from osm_line p, osm_names n, stednavne_names sn
 		where (   defined(p.tags, 'sport')
-                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall', 'golf_course')
-                       OR p.tags -> 'highway' IN ('racetrack')
+                       OR p.tags -> 'leisure' IN ('stadium', 'pitch', 'sports_centre', 'track', 'swimming_pool', 'sports_hall')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name

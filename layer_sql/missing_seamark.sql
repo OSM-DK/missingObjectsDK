@@ -1,24 +1,22 @@
-select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
-from stednavne s
-where featuretype in (
-                      'båke',
-                      'fyr',
-                      'fyrtårn',
-                      'røse'
-                     )
-and not exists (select 1
-                from osm_polygon p
+select way, ogc_fid, gml_id, objectid, navigationsanlaegstype, navn_1_skrivemaade as navn
+from stednavne.navigationsanlaeg s
+where
+    not exists (select 1
+                from stednavne_names sn, osm_polygon p
                 LEFT JOIN osm_names n ON n.osm_id = p.osm_id
+		
 		where (   p.tags -> 'man_made' in ('beacon', 'lighthouse')
                        OR defined(p.tags, 'seamark:type')
                       )
-		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn OR p.tags -> 'seamark:name' = s.navn OR p.tags -> 'seamark:name' || ' Fyr' = s.navn)
+		 AND (n.name = sn.name OR n.name || ' Fyr' = sn.name OR p.tags -> 'seamark:name' = sn.name OR p.tags -> 'seamark:name' || ' Fyr' = sn.name)
+		 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 and not exists (select 1
-                from osm_point p
+                from stednavne_names sn, osm_point p
                 LEFT JOIN osm_names n ON n.osm_id = p.osm_id
 		where (   p.tags -> 'man_made' in ('beacon', 'lighthouse')
                        OR defined(p.tags, 'seamark:type')
                       )
-		 AND (n.name = s.navn OR n.name || ' Fyr' = s.navn OR p.tags -> 'seamark:name' = s.navn OR p.tags -> 'seamark:name' || ' Fyr' = s.navn)
+		 AND (n.name = sn.name OR n.name || ' Fyr' = sn.name OR p.tags -> 'seamark:name' = sn.name OR p.tags -> 'seamark:name' || ' Fyr' = sn.name)
+		 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 100 )

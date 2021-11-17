@@ -1,30 +1,26 @@
-select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
-from stednavne s
-where featuretype in (
-                      'andenReligion',
-                      'jødisk',
+select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as navn
+from stednavne.bygning s
+where bygningstype in (
                       'kirkeAndenKristen',
                       'kirkeProtestantisk',
-                      'kristen',
                       'moske',
-                      'muslimsk',
                       'synagoge'
                      )
 and not exists (select 1
-                from osm_polygon p, osm_names n
+                from osm_polygon p, osm_names n, stednavne_names sn
 		where (   defined(p.tags, 'religion')
-                       OR p.tags -> 'amenity' in ('grave_yard', 'place_of_worship')
-                       OR p.tags -> 'landuse' in ('cemetery')
+                       OR p.tags -> 'amenity' in ('place_of_worship')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR n.name || 'gård' = s.navn)
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 and not exists (select 1
-                from osm_point p, osm_names n
+                from osm_point p, osm_names n, stednavne_names sn
 		where (   defined(p.tags, 'religion')
-                       OR p.tags -> 'amenity' in ('grave_yard', 'place_of_worship')
-                       OR p.tags -> 'landuse' in ('cemetery')
+                       OR p.tags -> 'amenity' in ('place_of_worship')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn OR n.name || 'gård' = s.navn)
-		 AND ST_Distance(p.geog, s.geog) < 100 )
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
+	         AND ST_Distance(p.geog, s.geog) < 100 )

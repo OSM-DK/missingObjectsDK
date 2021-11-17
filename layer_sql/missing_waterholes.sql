@@ -1,7 +1,12 @@
-select way, ogc_fid, gml_id, objectid, soetype, areal, navn_1_skrivemaade as navn
-from stednavne.soe s
+select way, ogc_fid, gml_id, objectid, naturarealtype, areal, navn_1_skrivemaade as navn
+from stednavne.naturareal s
+where naturarealtype in (
+ 'moseSump',
+ 'marsk'
+)
 
-where not exists (select 1
+
+and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'natural' in (
                                     'wetland',

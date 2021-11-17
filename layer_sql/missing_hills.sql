@@ -1,16 +1,15 @@
-select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
-from stednavne s
-where featuretype in (
+select way, ogc_fid, gml_id, objectid, landskabsformtype, areal, navn_1_skrivemaade as navn
+from stednavne.landskabsform s
+where landskabsformtype in (
  'bakke',
  'højBanke',
  'højdedrag',
  'klint',
- 'sandKlit',
  'skræntNaturlig'
  'ås'
 )
 and not exists (select 1
-                from osm_polygon p, osm_names n
+                from osm_polygon p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
@@ -23,12 +22,13 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                  )
                  AND n.osm_id = p.osm_id
-		 AND n.name = s.navn
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
 and not exists (select 1
-                from osm_point p, osm_names n
+                from osm_point p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
@@ -41,12 +41,13 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                  )
                  AND n.osm_id = p.osm_id
-		 AND n.name = s.navn
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 1 )
 
 
 and not exists (select 1
-                from osm_line p, osm_names n
+                from osm_line p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'natural' in (
                                     'peak',
                                     'ridge',
@@ -59,5 +60,6 @@ and not exists (select 1
                          OR p.tags -> 'geological' = 'moraine'
                  )
                  AND n.osm_id = p.osm_id
-		 AND n.name = s.navn
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 1 )

@@ -1,13 +1,9 @@
-select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as navn
-from stednavne.bygning s
-where bygningstype in (
-                      'feriecenter',
-                      'hotel',
-                      'vandrerhjem'
-                     )
-and not exists (select 1
+select way, ogc_fid, gml_id, objectid, campingpladstype, navn_1_skrivemaade as navn
+from stednavne.campingplads s
+where 
+    not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
+		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'resort')
                        OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
                  AND n.osm_id = p.osm_id
@@ -17,7 +13,7 @@ and not exists (select 1
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 'hotel', 'motel', 'resort')
+		where (   p.tags -> 'tourism' in ('camp_site', 'caravan_site', 'chalet', 'resort')
                        OR p.tags -> 'amenity' in ('resort', 'beach_resort')
                       )
                  AND n.osm_id = p.osm_id

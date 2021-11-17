@@ -1,21 +1,21 @@
-select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
-from stednavne s
-where featuretype in ('å', 'vandfald', 'dæmning', 'sluse', 'vandløb')
+select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+from stednavne.andentopografipunkt s
+where andentopografitype in ('vandfald', 'sluse')
 and not exists (select 1
-                from osm_line p, osm_names n
-		where (   p.tags -> 'waterway' in ('river', 'stream', 'riverbank', 'canal', 'waterfall', 'dam', 'lock_gate')
+                from osm_line p, osm_names n, stednavne_names sn
+		where (   p.tags -> 'waterway' in ('waterfall', 'dam', 'lock_gate')
                        OR defined(p.tags, 'lock')
                        OR p.tags -> 'water' = 'lock'
-                       OR defined(p.tags, 'embankment')
-                       OR p.tags -> 'man_made' IN ('embankment')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = s.navn)
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 50 )
 
 and not exists (select 1
-                from osm_point p, osm_names n
+                from osm_point p, osm_names n, stednavne_names sn
 		where p.waterway in ('waterfall', 'dam', 'lock_gate')
                  AND n.osm_id = p.osm_id
-		 AND n.name = s.navn
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 50 )

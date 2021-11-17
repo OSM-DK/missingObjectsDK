@@ -1,25 +1,26 @@
-select way, ogc_fid, gml_id, featureid, featurecode, featuretype, snsorid, navn, stoerrelseareal, indbyggerantal
-from stednavne s
-where featuretype in (
+select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as navn
+from stednavne.bygning s
+where bygningstype in (
                       'gård',
                       'herregård'
                      )
 and not exists (select 1
-                from osm_polygon p
+                from stednavne_names sn, osm_polygon p
                 LEFT JOIN osm_names n ON n.osm_id = p.osm_id
 		where (   p.tags -> 'building' IN ('farm')
                        OR p.tags -> 'historic' IN ('manor')
                       )
-		 AND n.name = s.navn
+		 AND n.name = sn.name
+                 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
-                from osm_point p
+                from stednavne_names sn, osm_point p
                 LEFT JOIN osm_names n ON n.osm_id = p.osm_id
 		where (    p.tags -> 'building' IN ('farm')
                         OR p.tags -> 'historic' IN ('manor')
                       )
-                 AND ( n.name = s.navn OR p.tags -> 'addr:housename' = s.navn )
+                 AND ( n.name = sn.name OR p.tags -> 'addr:housename' = sn.name )
+                 AND sn.gml_id = s.gml_id
                  AND ST_Distance(p.geog, s.geog) < 50 )
-order by ST_XMin(s.way)
 

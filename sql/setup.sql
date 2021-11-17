@@ -31,3 +31,20 @@ CREATE TABLE osm_names (
 
 CREATE INDEX idx_osm_names_name ON osm_names (name);
 CREATE INDEX idx_osm_names_osm_id ON osm_names (osm_id);
+
+
+CREATE TABLE stednavne_names (
+  gml_id varchar,
+  name text,
+  status varchar,
+  priority varchar,
+  sequence int
+);
+
+CREATE INDEX idx_stednavne_names_name ON stednavne_names (name);
+CREATE INDEX idx_stednavne_names_gml_id ON stednavne_names (gml_id);
+CREATE INDEX idx_stednavne_names_status ON stednavne_names (status);
+CREATE INDEX idx_stednavne_names_priority ON stednavne_names (priority);
+CREATE INDEX idx_stednavne_names_sequence ON stednavne_names (sequence);
+
+CREATE SCHEMA stednavne
