@@ -84,6 +84,9 @@
 node,way   access       text         linear
 node,way   addr:housename      text  linear
 node,way   addr:housenumber    text  linear
+node,way   addr:street         text  linear
+node,way   addr:postcode       text  linear
+node,way   addr:country        text  linear
 node,way   addr:interpolation  text  linear
 node,way   admin_level  text         linear
 node,way   aerialway    text         linear
@@ -104,13 +107,13 @@ node,way   cutting      text         linear
 node,way   denomination text         linear
 node,way   disused      text         linear
 node       ele          text         linear
-node,way   embankment   text         linear
+node,way   embankment   text         nocolumn
 node,way   foot         text         linear
 node,way   generator:source    text  linear
 node,way   harbour      text         polygon
 node,way   highway      text         linear
 node,way   historic     text         polygon
-node,way   horse        text         linear
+node,way   horse        text         nocolumn
 node,way   intermittent text         linear
 node,way   junction     text         linear
 node,way   landuse      text         polygon
@@ -128,7 +131,7 @@ node,way   operator     text         linear
 node,way   place        text         polygon
 node,way   population   text         linear
 node,way   power        text         polygon
-node,way   power_source text         linear
+node,way   power_source text         nocolumn
 node,way   public_transport text     polygon
 node,way   railway      text         linear
 node,way   ref          text         linear
@@ -138,7 +141,7 @@ node,way   service      text         linear
 node,way   shop         text         polygon
 node,way   sport        text         polygon
 node,way   surface      text         linear
-node,way   toll         text         linear
+node,way   toll         text         nocolumn
 node,way   tourism      text         polygon
 node,way   tower:type   text         linear
 way        tracktype    text         linear
@@ -214,10 +217,10 @@ node,way    KSJ2:*                  text    delete
 node,way    yh:*                    text    delete
 
 # osak (DK)
-node,way    osak:*                  text    delete
+# node,way    osak:*                  text    delete
 
 # kms (DK)
-node,way    kms:*                   text    delete
+# node,way    kms:*                   text    delete
 
 # ngbe (ES)
 # See also note:es and source:file above

@@ -22,6 +22,9 @@ then
 
    find "$STEDNAVN_DIR" -name '*.gml' -exec ./importGml.sh {} \;
 
+   echo "Updating stednavne_extranames" >> $LOGFILE
+   psql osm < sql/stednavne_extranames.sql >> $LOGFILE
+
    echo "Done importing stednavne" >> $LOGFILE
 else
    echo "No news from Datafordeler" >> $LOGFILE
