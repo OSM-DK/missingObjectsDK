@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, 'andentopografipunkt' as featureclass
 from stednavne.andentopografipunkt s
 where andentopografitype in (
                       'brønd'
@@ -23,7 +23,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, bygningstype as featuretype, navn_1_skrivemaade as navn, 'bygning' as featureclass
 from stednavne.bygning s
 where bygningstype in (
                       'kraftvarmeværk',

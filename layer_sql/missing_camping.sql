@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, campingpladstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, campingpladstype as featuretype, navn_1_skrivemaade as navn, 'campingplads' as featureclass
 from stednavne.campingplads s
 where 
     not exists (select 1

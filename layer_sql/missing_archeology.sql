@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, fortidsmindetype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, fortidsmindetype as featuretype, navn_1_skrivemaade as navn, 'fortidsminde' as featureclass
 from stednavne.fortidsminde s
 where
  not exists (select 1

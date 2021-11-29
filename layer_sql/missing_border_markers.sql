@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, 'andentopografipunkt' as featureclass
 from stednavne.andentopografipunkt s
 where andentopografitype in (
                       'grænsestenGrænsepæl'

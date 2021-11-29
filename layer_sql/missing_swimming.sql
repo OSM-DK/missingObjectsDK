@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, friluftsbadtype, navn_1_skrivemaade as  navn
+select way, ogc_fid, gml_id, objectid, friluftsbadtype as featuretype, navn_1_skrivemaade as  navn, 'friluftsbad' as featureclass
 from stednavne.friluftsbad s
 where
    not exists (select 1

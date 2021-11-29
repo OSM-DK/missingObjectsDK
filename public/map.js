@@ -33,7 +33,7 @@
       var features = [];
 
       const props2name = function (props){
-         return props.navn || props.name || props.strandnr || props.ref || (props['addr:street'] + ' ' + props['addr:housenumber']);
+          return props.override_display_name || props.navn || props.name || props.strandnr || props.ref || `${props['addr:street'] || ''} ${props['addr:housenumber'] || ''}`;
       };
 
 
@@ -265,10 +265,12 @@
         features.push(feature);
 
         let props = feature.properties;
-	if (props.tags && !props.navn) {
-           props = props.tags;
+	let displayname = props2name(props);
+	if (props.tags && (props.override_display_name || !props.navn)) {
+          props = props.tags;
+	  displayname = displayname || props2name(props);
         }
-        let content = `<h2>${props2name(props)}</h2>`;
+        let content = `<h2>${displayname}</h2>`;
         for (let p in props) {
           content += `<b>${p}:</b> ${props[p]}<br/>`;
         }

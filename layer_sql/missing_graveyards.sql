@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, begravelsespladstype, navn_1_skrivemaade as navn, areal
+select way, ogc_fid, gml_id, objectid, begravelsespladstype as featuretype, navn_1_skrivemaade as navn, areal, 'begravelsesplads' as featureclass
 from stednavne.begravelsesplads s
 where
     not exists (select 1

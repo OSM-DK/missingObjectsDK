@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, bygningstype as featuretype, navn_1_skrivemaade as navn, 'bygning' as featureclass
 from stednavne.bygning s
 where bygningstype in (
                       'akvarium',
@@ -40,7 +40,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, sevaerdighedstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, sevaerdighedstype as featuretype, navn_1_skrivemaade as navn, 'sevaerdighed' as featureclass
 from stednavne.sevaerdighed s
 where sevaerdighedstype in (
                       'andenSeværdighed',
@@ -87,7 +87,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, fortidsmindetype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, fortidsmindetype as featuretype, navn_1_skrivemaade as navn, 'fortidsminde' as featureclass
 from stednavne.fortidsminde s
 where fortidsmindetype in (
                       'batteri',
@@ -127,7 +127,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, 'andentopografipunkt' as featureclass
 from stednavne.andentopografipunkt s
 where andentopografitype in (
 		      'gravsted',

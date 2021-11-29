@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, vejtype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, vejtype as featuretype, navn_1_skrivemaade as navn, 'vej' as featureclass
 from stednavne.vej s
 where
     not exists (select 1
@@ -36,7 +36,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, 'andentopografipunkt' as featureclass
 from stednavne.andentopografipunkt s
 where andentopografitype in (
                       'ledLåge',
@@ -66,11 +66,11 @@ and not exists (select 1
 		 AND ST_Distance(p.geog, s.geog) < 300 )
 
 and not exists (select 1
-                from osm_point p, osm_names n, stednavne_names sn
+                from osm_point p, osm_names n, stednavne_extranames sn
 		where (   defined(p.tags, 'highway')
 		       OR (andentopografitype = 'ledLåge' AND p.tags -> 'barrier' = 'gate')
 		      )
                  AND n.osm_id = p.osm_id
-		 AND ((n.name = sn.name) OR (n.name = 'Motorvejskryds ' || sn.name))
+		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 700 )

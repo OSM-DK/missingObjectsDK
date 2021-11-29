@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, bebyggelsestype, navn_1_skrivemaade as navn, areal
+select way, ogc_fid, gml_id, objectid, bebyggelsestype as featuretype, navn_1_skrivemaade as navn, areal, 'bebyggelse' as featureclass
 from stednavne.bebyggelse s
 where bebyggelsestype in (
                       'kolonihave',

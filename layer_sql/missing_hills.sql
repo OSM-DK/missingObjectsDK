@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, landskabsformtype, areal, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, landskabsformtype as featuretype, areal, navn_1_skrivemaade as navn, 'landskabsform' as featureclass
 from stednavne.landskabsform s
 where landskabsformtype in (
  'bakke',

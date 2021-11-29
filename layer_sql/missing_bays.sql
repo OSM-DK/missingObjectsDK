@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, farvandstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, farvandstype as featuretype, navn_1_skrivemaade as navn, 'farvand' as featureclass
 from stednavne.farvand s
 where farvandstype in (
  'bredning',

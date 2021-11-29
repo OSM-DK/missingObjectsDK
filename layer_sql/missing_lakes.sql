@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, soetype, areal, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, soetype as featuretype, areal, navn_1_skrivemaade as navn, 'soe' as featureclass
 from stednavne.soe s
 
 where not exists (select 1

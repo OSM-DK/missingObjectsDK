@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn, areal
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, areal, 'andentopografiflade' as featureclass
 from stednavne.andentopografiflade s
 where andentopografitype in (
                       'stenbrud',

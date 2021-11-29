@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, 'andentopografipunkt' as featureclass
 from stednavne.andentopografipunkt s
 where andentopografitype in (
                       'bro'
@@ -26,7 +26,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, jernbanetype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, jernbanetype as featuretype, navn_1_skrivemaade as navn, 'jernbane' as featureclass
 from stednavne.jernbane s
 where jernbanetype in (
                       'jernbanetunnel'

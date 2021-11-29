@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, bygningstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, bygningstype as featuretype, navn_1_skrivemaade as navn, 'bygning' as featureclass
 from stednavne.bygning s
 where bygningstype in (
                       'feriecenter',

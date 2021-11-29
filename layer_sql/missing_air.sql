@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, lufthavnstype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, lufthavnstype as featuretype, navn_1_skrivemaade as navn, 'lufthavn' as featureclass
 from stednavne.lufthavn s
 where lufthavnstype in (
                       'flyveplads',
@@ -9,10 +9,10 @@ where lufthavnstype in (
                       'landingsplads'
                      )
 and not exists (select 1
-                from osm_polygon p, osm_names n, stednavne_names sn
+                from osm_polygon p, osm_names n, stednavne_extranames sn
 		where (   p.tags -> 'aeroway' in ('aerodrome', 'helipad', 'heliport', 'runway', 'terminal')
                       )
                  AND n.osm_id = p.osm_id
-		 AND (n.name = sn.name OR n.name = sn.name || ' Flyveplads')
+		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 100 )

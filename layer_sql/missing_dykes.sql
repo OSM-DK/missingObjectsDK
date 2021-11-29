@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, terraenkonturtype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, terraenkonturtype as featuretype, navn_1_skrivemaade as navn, 'terraenkontur' as featureclass
 from stednavne.terraenkontur s
 where
     not exists (select 1

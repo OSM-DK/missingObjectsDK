@@ -20,6 +20,8 @@ CREATE INDEX idx_osm_line_tags ON osm_line USING gist(tags);
 
 CREATE INDEX idx_osm_line_name     ON osm_line (name);
 
+CREATE INDEX idx_osm_point_addr ON osm_point ('addr:housenumber', 'addr:street', 'addr:postcode', 'addr:country');
+
 TRUNCATE TABLE osm_names;
 
 INSERT INTO osm_names (

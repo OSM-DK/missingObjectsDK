@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, naturarealtype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, naturarealtype as featuretype, navn_1_skrivemaade as navn, 'naturareal' as featureclass
 from stednavne.naturareal s
 where naturarealtype in (
  'klippeIOverfladen'
@@ -44,7 +44,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, urentfarvandtype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, urentfarvandtype as featuretype, navn_1_skrivemaade as navn, 'urentfarvand' as featureclass
 from stednavne.urentfarvand s
 where urentfarvandtype in (
  'overskylledeSten'
@@ -91,7 +91,7 @@ and not exists (select 1
 
 UNION
 
-select way, ogc_fid, gml_id, objectid, andentopografitype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, andentopografitype as featuretype, navn_1_skrivemaade as navn, 'andentopografipunkt' as featureclass
 from stednavne.andentopografipunkt s
 where andentopografitype in (
  'sten'

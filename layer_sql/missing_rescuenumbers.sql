@@ -5,9 +5,10 @@ select way,
        strandnr,
        opdateretdatotid,
        objekttypeid,
-       objekttypenavn,
+       objekttypenavn as featuretype,
        etableret,
-       bemaerkning
+       bemaerkning,
+       'redningsnummer' as featureclass
 from redningsnumre s
 where etableret > 0
   AND not exists (select 1

@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id status, landskabsformtype, areal, navn_1_skrivemaade as navn, id_namespace, id_lokalid
+select way, ogc_fid, gml_id status, landskabsformtype as featuretype, areal, navn_1_skrivemaade as navn, id_namespace, id_lokalid, 'landskabsform' as featureclass
 from stednavne.landskabsform s
 where landskabsformtype in (
  'dal',

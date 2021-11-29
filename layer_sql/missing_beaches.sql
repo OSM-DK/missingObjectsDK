@@ -1,4 +1,4 @@
-select way, ogc_fid, gml_id, objectid, naturarealtype, navn_1_skrivemaade as navn
+select way, ogc_fid, gml_id, objectid, naturarealtype as featuretype, navn_1_skrivemaade as navn, 'naturareal' as featureclass
 from stednavne.naturareal s
 where naturarealtype in (
  'strand',
