@@ -25,6 +25,9 @@ then
    echo "Updating stednavne_extranames" >> $LOGFILE
    psql osm < sql/stednavne_extranames.sql >> $LOGFILE
 
+   echo "Adding extra stednavne indexes" >> $LOGFILE
+   psql osm < sql/stednavne_indexes.sql >> $LOGFILE
+
    echo "Done importing stednavne" >> $LOGFILE
 else
    echo "No news from Datafordeler" >> $LOGFILE
