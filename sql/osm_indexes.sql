@@ -18,9 +18,12 @@ CREATE INDEX idx_osm_point_tags ON osm_point USING gist(tags);
 CREATE INDEX idx_osm_polygon_tags ON osm_polygon USING gist(tags);
 CREATE INDEX idx_osm_line_tags ON osm_line USING gist(tags);
 
-CREATE INDEX idx_osm_line_name     ON osm_line (name);
+CREATE INDEX idx_osm_line_name ON osm_line (name);
+CREATE INDEX idx_osm_line_highway ON osm_line (highway);
+CREATE INDEX idx_osm_line_bridge ON osm_line (bridge);
 
-CREATE INDEX idx_osm_point_addr ON osm_point ('addr:housenumber', 'addr:street', 'addr:postcode', 'addr:country');
+CREATE INDEX idx_osm_point_addr ON osm_point ("addr:housenumber", "addr:street", "addr:postcode", "addr:country");
+CREATE INDEX idx_osm_point_street ON osm_point ("addr:street");
 
 TRUNCATE TABLE osm_names;
 
