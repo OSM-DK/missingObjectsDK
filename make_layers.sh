@@ -7,9 +7,24 @@ source config.sh
 
 echo "Starting make_layers - $(date)" >> $LOGFILE
 
-rm layers/*.geojson >> $LOGFILE
+GJ_LAYERS=$(ls layers/*.geojson)
+SQL_LAYERS=$(ls layer_sql/*.sql)
 
-for sqlfile in $(ls layer_sql/*.sql); do
+
+if (($# > 0))
+then
+    GJ=("${@/#/layers/}")
+    GJ=("${GJ[@]/%/.geojson}")
+    GJ_LAYERS=$(ls "${GJ[@]}")
+    
+    SQL=("${@/#/layer_sql/}")
+    SQL=("${SQL[@]/%/.sql}")
+    SQL_LAYERS=$(ls "${SQL[@]}")
+fi
+
+rm $GJ_LAYERS >> $LOGFILE
+
+for sqlfile in $SQL_LAYERS; do
     sqlfile=${sqlfile#*/}
     layer=${sqlfile%.sql}
     echo "Making layer $layer - $(date)" >> $LOGFILE
