@@ -25,7 +25,7 @@
 <script src="node_modules/moment/moment.js"></script>
 <script src="node_modules/object-hash/dist/object_hash.js"></script>
 
-<script src="node_modules/chart.js/dist/Chart.min.js"></script>
+<script src="node_modules/chart.js/dist/chart.min.js"></script>
 <script src="parseparams.js"></script>
 
 <script>
@@ -81,7 +81,11 @@
   var loadStats = function(dates) {
     var missing = dates.length;
     var incoming = {};
-
+    var layerFilter = null;
+    if (params['layers']) {
+      layerFilter = new Set(params['layers'].split(';'));
+    }
+		    
     var allDone = function(){ 
       var layers = {};
       var stats = { labels: [],
@@ -92,6 +96,9 @@
         if (incoming[date]) {
            stats.labels.push(incoming[date].showDate || date);
            for (var layerName of Object.keys(incoming[date].stats)) {
+              if (layerFilter && !layerFilter.has(layerName)) {
+                continue;
+              }
               if (! layers[layerName] ) {
 		layers[layerName] =  {};
               }
