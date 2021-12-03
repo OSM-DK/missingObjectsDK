@@ -1,4 +1,4 @@
-select way, hstore_to_json(tags) as tags
+select way, osm_id, hstore_to_json(tags) as tags
 from osm_point p
 where (   p.tags -> 'emergency' in ('access_point')
        OR p.tags -> 'highway' in ('emergency_access_point' )

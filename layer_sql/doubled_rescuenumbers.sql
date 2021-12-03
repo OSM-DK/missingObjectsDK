@@ -1,4 +1,4 @@
-select way, hstore_to_json(tags) as tags
+select way, osm_id, hstore_to_json(tags) as tags
 from osm_point p
 where defined(p.tags, 'ref')
  and p.tags -> 'emergency' = 'access_point'

@@ -1,4 +1,4 @@
-select way, hstore_to_json(p.tags) as tags, p.tags->'addr:housename' as override_display_name
+select way, osm_id, hstore_to_json(p.tags) as tags, p.tags->'addr:housename' as override_display_name
  from osm_point p
 
 where

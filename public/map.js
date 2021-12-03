@@ -127,10 +127,21 @@
                         });
                    },
 		   openFunc: function(idx) {
-                       const feature = features[idx];
-		       const bbox = geometry2bbox(feature.geometry, 0.0015);
-		       const openUrl = editors.Josm.url + L.Util.getParamString(bbox);
-		       return $.getJSON(openUrl);
+                     const feature = features[idx];
+                     const props = feature.properties;
+
+                     const params = geometry2bbox(feature.geometry, 0.0015);
+
+                     if (props && props.osm_id) {
+		       if (feature && feature.geometry && feature.geometry.type && feature.geometry.type === 'Point') {
+                         params.select = `node${props.osm_id}`;
+                       } else {
+                         params.select = `way${props.osm_id},relation${props.osm_id}`;
+                       }
+                     }
+
+                     const openUrl = editors.Josm.url + L.Util.getParamString(params);
+                     return $.getJSON(openUrl);
 		       
 		   },
                    addFunc: function(idx) {

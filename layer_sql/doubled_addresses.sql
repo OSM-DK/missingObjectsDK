@@ -1,4 +1,4 @@
-select way, hstore_to_json(tags) as tags
+select way, osm_id, hstore_to_json(tags) as tags
 from osm_point a
 where a."addr:street" IS NOT NULL
   and a."addr:housenumber" IS NOT NULL
