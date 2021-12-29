@@ -154,7 +154,7 @@
 		       const coords = normalizeCoordinates(feature.geometry.coordinates);
 		       let url = 'http://127.0.0.1:8111/';
 		       if (coords.length == 1) {
-			   url += `add_node?lon=${coords[0][1]}&lat=${coords[0][0]}`;
+			   url += `add_node?lon=${coords[0][0]}&lat=${coords[0][1]}`;
                        } else {
 			   url += 'add_way?way='
 			       + coords.map((c) => `${c[1]},${c[0]}`).join(';');
