@@ -20,7 +20,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.geog, 100)
+		)
 
 
 and not exists (select 1
@@ -40,7 +41,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.geog, 100)
+	       )
 
 UNION
 
@@ -66,7 +68,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.geog, 100)
+		)
 
 
 and not exists (select 1
@@ -86,7 +89,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.geog, 100)
+		)
 
 
 UNION
@@ -113,8 +117,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
-
+		 AND ST_DWithin(p.geog, s.geog, 100)
+	        )
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
@@ -133,5 +137,6 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
 		 AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.geog, 100)
+		)
 

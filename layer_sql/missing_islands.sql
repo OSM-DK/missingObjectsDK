@@ -9,4 +9,5 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 40 )
+		 AND ST_DWithin(p.geog, s.geog, 40)
+	        )

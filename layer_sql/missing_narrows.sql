@@ -18,7 +18,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.simple_geog, s.simple_geog, 300)
+		)
 
 
 and not exists (select 1
@@ -35,7 +36,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.simple_geog, 500)
+		)
 
 
 and not exists (select 1
@@ -51,4 +53,5 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.way, s.simple_geog, 500)
+		)

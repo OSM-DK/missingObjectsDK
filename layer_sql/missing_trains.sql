@@ -10,7 +10,8 @@ where
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
- 		 AND ST_Distance(p.geog, s.geog) < 100 )
+ 		 AND ST_DWithin(p.geog, s.geog, 100)
+	        )
 
 and not exists (select 1
                 from osm_line p, osm_names n, stednavne_names sn
@@ -18,7 +19,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND ((n.name = sn.name) OR (sn.name = p.tags -> 'operator'))
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 100 )
+		 AND ST_DWithin(p.geog, s.geog, 100)
+	        )
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_extranames sn
@@ -29,7 +31,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 500 )
+		 AND ST_DWithin(p.geog, s.geog, 500)
+	       )
 
 UNION
 
@@ -47,7 +50,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
- 		 AND ST_Distance(p.geog, s.geog) < 100 )
+ 		 AND ST_DWithin(p.geog, s.geog, 100)
+	       )
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_extranames sn
@@ -58,4 +62,5 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 500 )
+		 AND ST_DWithin(p.geog, s.geog, 500)
+		)

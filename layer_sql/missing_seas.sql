@@ -3,7 +3,6 @@ from stednavne.farvand s
 where farvandstype in (
  'hav'
                      )
-and s.navn_1_skrivemaade not in ('Nordsøen', 'Østersøen')
 and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'natural' in (
@@ -19,8 +18,8 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
-
+		 AND ST_DWithin(p.simple_geog, s.simple_geog, 50)
+               )
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
@@ -37,4 +36,5 @@ and not exists (select 1
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
-		 AND ST_Distance(p.geog, s.geog) < 1 )
+		 AND ST_DWithin(p.geog, s.simple_geog, 400)
+                )

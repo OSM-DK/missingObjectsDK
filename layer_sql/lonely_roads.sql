@@ -7,4 +7,5 @@ where r.name is not null
  and not exists (select 1
                  from osm_point a
   		 where (r.name = a."addr:street") 
-		 and ST_Distance(r.geog, a.geog) < 500 )
+		 and ST_DWithin(r.geog, a.geog, 500)
+		)
