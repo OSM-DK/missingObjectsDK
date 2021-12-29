@@ -3,27 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Manglende navne i OpenStreetMap i Danmark</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
 <header>
   <h1>Manglende navne i OpenStreetMap i Danmark</h1>
-  <link rel="stylesheet" href="style.css" type="text/css" />
 </header>
+<section>
+  <p class="note">Bemærk, at dette værktøj er beregnet til at finde potentielle mangler i OSM. I OSM-sammenhæng kan Danske Stednavne ikke betragtes
+som en autoritativ kilde. By- og gårdnavne er nok nogenlunde sikre, men hoteller, sportsfaciliteter, skoler m.v. kan have skiftet navn eller være nedlagt.
+I nogle tilfælde giver det måske mening at tilføje navnet fra Danske Stednavne som <a href="https://wiki.openstreetmap.org/wiki/Key:alt_name">alt_name</a>.<br/>
+Brug din sunde fornuft og undersøg selv oplysningerne på anden vis, f.x. ved søgning på nettet.
+</p>
+</section>
 <section>
 <h2>Manglende stednavne</h2>
 <p>Her er en oversigt over stednavne fra Styrelsen for Dataforsyning og Effektiviserings <a href="https://sdfe.dk/hent-data/danske-stednavne/">liste over Danske Stednavne</a>,
 som ikke kan genfindes i OpenStreetMap - i hvert fald ikke med de korrekte tags.<p>
 
-<p>Listen opdateres en gang i døgnet, men Danske Stednavne opdateres kun en gang om ugen - om søndagen.</p>
-
 <p>Som source i OSM bør angives "SDFE Danske Stednavne"</p>
-
-<p class="note">Bemærk, at dette værktøj er beregnet til at finde potentielle mangler i OSM. I OSM-sammenhæng kan Danske Stednavne ikke betragtes
-som en autoritativ kilde. By- og gårdnavne er nok nogenlunde sikre, men hoteller, sportsfaciliteter, skoler m.v. kan have skiftet navn eller være nedlagt.
-I nogle tilfælde giver det måske mening at tilføje navnet fra Danske Stednavne som <a href="https://wiki.openstreetmap.org/wiki/Key:alt_name">alt_name</a>.<br/>
-Brug din sunde fornuft og undersøg selv oplysningerne på anden vis, f.x. ved søgning på nettet.
-</p>
 
 <ul class="multicolumn">
 
@@ -86,6 +85,35 @@ på en vej, der ligger inden for 500 meter af adressen. Der er også den modsatt
 
 </ul>
 </section>
+<section>
+  <h2>Opdatering</h2>
+  <p>Data i kortene opdateres en gang i døgnet, om natten.</p>
+  <p>Udregningen er baseret på:
+   <ul>
+    <li>OMS-data fra <a href="https://www.geofabrik.de/">Geofabrik</a>s
+      daglige udtræk.</li>
+    <li>Danske Stednavne via Datafordeler</li>
+    <li>Redningsnummer.dk</li>
+   </ul>
+  </p>
+  <p>Det tager noget tid at lave alle udtræk, så de friske kort er som regel
+  først klar op ad formiddagen. Med alle indbyggede forsinkelser, betyder
+  det desværre, at hvis du er rigtig uheldig, kommer din OSM-rettelse først med
+  her efter hele 3½ døgn:</p>
+  <p>Hvis du for eksempel laver en ændring i OSM mandag kl. 21:03, så når den
+  akkurat ikke at komme med i Geofabriks udtræk for mandag (de påbegynder deres
+  udtræk kl. 21). Din rettelse kommer så først med i Geofabriks udtræk tirsdag
+  aften, men nogle gange når det ikke at blive klart inden kl. 1, hvor det
+  hentes til osm.elgaard.net. I så fald kommer det først med i kørslen nat
+  efter onsdag. Og så er det måske først med her torsdag kl. 11.</p>
+  <p>Omvendt kan du lave en rettelse mandag kl. 20:57, som når at komme med i
+  Geofabriks udtræk samme afteb. Hvis det når at blive klar inden kl. 1,
+  hentes det med her til, og din rettelse kommer med allerede tirsdag
+  formiddag, kun ½ døgn efter du lavede rettelsen.
+  </p>
+
+</section>
+
 <section>
 <h2>Om dette site</h2>
 <p>Sitet er udviklet af Jørgen Elgaard Larsen. Giv gerne besked pr. mail til <a href="mailto:jel@elgaard.net?subject=OSM-lister">jel@elgaard.net</a>, hvis du oplever fejl.</p>
