@@ -3,7 +3,7 @@ from stednavne.vandloeb s
 where
    not exists (select 1
                 from osm_line p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'waterway' in ('river', 'stream', 'riverbank', 'canal', 'ditch')
+		where (   p.tags -> 'waterway' in ('river', 'stream', 'riverbank', 'canal', 'ditch', 'drain')
                        OR defined(p.tags, 'embankment')
                        OR p.tags -> 'man_made' IN ('embankment')
                       )
