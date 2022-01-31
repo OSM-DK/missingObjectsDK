@@ -5,7 +5,7 @@ where landskabsformtype in (
  'højBanke',
  'højdedrag',
  'klint',
- 'skræntNaturlig'
+ 'skræntNaturlig',
  'ås'
 )
 and not exists (select 1

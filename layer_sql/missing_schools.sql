@@ -10,7 +10,7 @@ where bygningstype in ('efterskoleUngdomsskole',
                       'privatskoleFriskole',
                       'proffesionshøjskole',
                       'specialskole',
-                      'uddannelsescenter'
+                      'uddannelsescenter',
                       'universitet')
 and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn

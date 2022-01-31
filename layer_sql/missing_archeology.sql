@@ -7,13 +7,13 @@ where
                                      'archaeological_site',
                                      'battlefield',
                                      'building',
-				     'canon'
+				     'canon',
                                      'castle',
 				     'caste_wall',
-				     'citywalls'
-				     'fort'
+				     'citywalls',
+				     'fort',
                                      'memorial',
-				     'monument'
+				     'monument',
                                      'milestone',
 				     'pillory',
                                      'ruins',
@@ -39,13 +39,13 @@ and not exists (select 1
                                      'archaeological_site',
                                      'battlefield',
                                      'building',
-				     'canon'
+				     'canon',
                                      'castle',
 				     'caste_wall',
-				     'citywalls'
-				     'fort'
+				     'citywalls',
+				     'fort',
                                      'memorial',
-				     'monument'
+				     'monument',
                                      'milestone',
 				     'pillory',
                                      'ruins',
