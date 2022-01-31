@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Script for exporting GeoJSON layers for missing features in Denmark
-export PGPORT=5435
 
 source config.sh
 
@@ -29,7 +28,7 @@ for sqlfile in $SQL_LAYERS; do
     layer=${sqlfile%.sql}
     echo "Making layer $layer - $(date)" >> $LOGFILE
     START=$(date +%s)
-    ogr2ogr -f GeoJSON layers/${layer}.geojson PG:"dbname=osm user=${POSTGIS_DBUSER}"  -sql '@layer_sql/'${layer}.sql -nln ${layer} -overwrite -t_srs WGS84 >> $LOGFILE
+    ogr2ogr -f GeoJSON layers/${layer}.geojson PG:"dbname='osm' user='${POSTGIS_DBUSER}' port=${PGPORT}"  -sql '@layer_sql/'${layer}.sql -nln ${layer} -overwrite -t_srs WGS84 >> $LOGFILE
     STOP=$(date +%s)
 
     dT=$(echo "$STOP - $START" | bc)

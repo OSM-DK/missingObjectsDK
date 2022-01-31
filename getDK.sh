@@ -16,7 +16,7 @@ wget -nv -P files -o - -N "http://download.geofabrik.de/europe/denmark-latest.os
 if test $(find files/denmark-latest.osm.pbf -cmin -300)
 then
   echo "Reading OSM file" >> $LOGFILE
-  PGPORT=5435 osm2pgsql -s -G -K -j -c -l --unlogged --drop --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf >> $LOGFILE 2>&1
+  osm2pgsql -P $PGPORT -s -G -K -j -c -l --log-progress=false --drop --prefix='osm' -S osmimport.style -U ${POSTGIS_DBUSER} -d osm files/denmark-latest.osm.pbf >> $LOGFILE 2>&1
   OSMRESULT=$?
 
   if [ $OSMRESULT -ne 0 ]; then
@@ -41,7 +41,7 @@ then
 
    # Import redningsnumre to PostGIS
    echo "Importing redningsnumre" >> $LOGFILE
-   PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln redningsnumre -skipfailures -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" files/redningsnumre.gml
+   ogr2ogr -f PostgreSQL -dim XY -nln redningsnumre -skipfailures -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname='osm' user='${POSTGIS_USER}' port=${PGPORT}" files/redningsnumre.gml
 
    echo "Creating redningsnumre indexes" >> $LOGFILE
    # Create indexes

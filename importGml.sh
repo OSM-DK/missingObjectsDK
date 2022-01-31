@@ -35,7 +35,7 @@ perl -p -e 's/<gml:posList>/<gml:posList srsName="EPSG:25832" srsDimension="3">/
 
 # Import to to PostGIS
 echo "Importing stednavne for $LAYER" >> $LOGFILE
-PGPORT=5435 ogr2ogr -f PostgreSQL -dim XY -nln "$TABLE" -skipfailures -preserve_fid -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname=osm user=${POSTGIS_USER}" "$FIXED"
+ogr2ogr -f PostgreSQL -dim XY -nln "$TABLE" -skipfailures -overwrite -t_srs WGS84 -lco GEOMETRY_NAME=way PG:"dbname='osm' user='${POSTGIS_USER}' port=${PGPORT}" "$FIXED"
 
 echo "Creating stednavne indexes and names for $LAYER" >> $LOGFILE
 
