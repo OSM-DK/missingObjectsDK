@@ -35,7 +35,7 @@ where bygningstype in (
                      )
 and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'man_made' in ('watermill', 'observatory', 'wind_mill')
+		where (   p.tags -> 'man_made' in ('watermill', 'observatory', 'windmill')
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'amenity' in ('rescue_station')
                       )
@@ -46,7 +46,7 @@ and not exists (select 1
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'man_made' in ('watermill', 'observatory', 'wind_mill')
+		where (   p.tags -> 'man_made' in ('watermill', 'observatory', 'windmill')
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'amenity' in ('rescue_station')
                       )
