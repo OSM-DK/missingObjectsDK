@@ -32,32 +32,39 @@
   var dates = [];
   var dateformat = 'YYYYMMDD';
   var now = moment();
+  var offset = Number(params['offset'] || 0);
+
   if (params['monthdays']) {
-    var monthdays = params[monthdays];
-    if (! Array.isArray(monthDays)) {
-      monthdays = [monthdays];
+    var monthdays = params['monthdays'];
+    if (! Array.isArray(monthdays)) {
+      monthdays = monthdays.split(';');
     }
-    var months = params['months'] || 12;
-    
-    var current = now.date(1);
+    monthdays = monthdays.map((x) => Number(x));
+	  
+    var months = Number(params['months'] || 12);
+    var current = moment().date(1);
+      
     // current month
-    for (var i = monthdays.length - 1; i >= 0; i--) {
-      if (monthdays[i] <= now.date()) {
-        dates.push(current.date(monthdays[i]).format(dateformat));
+    if (offset == 0)
+    {
+      for (var i = monthdays.length - 1; i >= 0; i--) {
+        if (monthdays[i] <= now.date()) {
+          dates.push(current.date(monthdays[i]).format(dateformat));
+        }
       }
     }
 
-    for (var i = 1; i < months; i++) {
-      current = now.date(1).subtract(i, 'months');
+    for (var j = 1; j < months; j++) {
+      current = moment().date(1).subtract(j + offset, 'months');
       for (var i = monthdays.length - 1; i >= 0; i--) {
         dates.push(current.date(monthdays[i]).format(dateformat));
       }
     }
   } else {
-    var daysinterval = params['daysinterval'] || 1;
-    var intervals = params['intervals'] || 30;
+    var daysinterval = Number(params['daysinterval'] || 1);
+    var intervals = Number(params['intervals'] || 30);
     for (i = 0; i < intervals; i++) {
-       dates.push(moment().subtract(i * daysinterval, 'days').format(dateformat));
+       dates.push(moment().subtract(i * daysinterval + offset, 'days').format(dateformat));
     }
 
   } 

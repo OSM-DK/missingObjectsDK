@@ -39,6 +39,13 @@ p, li {
    width: auto;
 }
 
+.date {
+    text-align: right;
+    padding-right: 2em;
+    font-weight: bold;
+    font-style: oblique;
+}
+
 a {
   color: #005;
   text-decoration: none;
