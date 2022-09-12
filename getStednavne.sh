@@ -9,9 +9,9 @@ DATAFORDELER_DIR="files/datafordeler"
 STEDNAVN_DIR="${DATAFORDELER_DIR}/unzipped"
 (rm -r "${DATAFORDELER_DIR}"/* || true) >> $LOGFILE 2>&1
 wget -r -nv -nd -P files/datafordeler -o - -N ftp://${DATAFORDELER_USER}:${DATAFORDELER_PW}@ftp3.datafordeler.dk/ >> $LOGFILE
-if test $(find $DATAFORDELER_DIR -iname "DKstednavne*.zip" -cmin -300)
+if test -n "$(find $DATAFORDELER_DIR -iname 'DKstednavne*.zip' -cmin -300)"
 then
-   STEDNAVN_FILE=$(find $DATAFORDELER_DIR -iname "DKstednavne*.zip" -cmin -300 | head -n 1)
+   STEDNAVN_FILE="$(find $DATAFORDELER_DIR -iname 'DKstednavne*.zip' -cmin -3000 | xargs ls -t | head -n 1)"
    echo "Unzip stednavne" >> $LOGFILE
    mkdir "$STEDNAVN_DIR"
    unzip -j -o "$STEDNAVN_FILE" -d "$STEDNAVN_DIR" >> $LOGFILE
