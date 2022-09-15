@@ -56,11 +56,11 @@
                                opacity: 0.7,
                              });
 
-      var sat = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+      var sat = L.tileLayer('https://api.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg80?access_token={accessToken}',
                             {
                               attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
                               maxZoom: 18,
-                              id: 'mapbox/satellite',
+                              id: 'mapbox.satellite',
                               accessToken: 'pk.eyJ1IjoiZWxoYWFyZCIsImEiOiJja244MDM5MnAwZDF3Mm9tcXgxcWYyOXZpIn0.VKOD84uZNW0M6-D0-AnVyA',
                               opacity: 0.6,
                             });
