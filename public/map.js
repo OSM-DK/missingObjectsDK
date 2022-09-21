@@ -36,6 +36,78 @@
           return props.override_display_name || props.navn || props.name || props.strandnr || props.ref || `${props['addr:street'] || ''} ${props['addr:housenumber'] || ''}`;
       };
 
+      const getTags = function(props, name) {
+	  var tags = [];
+
+          const tagIsPertinent = function(tag, conditionString, props) {
+	      if (!conditionString) {
+		  return true;
+	      }
+
+              const cond = conditionString.split(/\s+/);
+
+              const key = cond.shift();
+	      const operator = cond.shift();
+		      
+	      if (!key || !operator)
+	      {
+		  console.warn(`Invalid condition expression for feature type ${props.featuretype}:`, conditionString, tag, cond);
+		  return false;
+	      }         
+
+	      const value = props[key];
+              const argument1 = cond.shift();
+	      
+	      switch(operator) {
+	      case "unset":
+		  return !value;
+	      case "=":
+		  return `${value}` == argument1;
+	      case "<":
+		  return (Number(value) < Number(argument1));
+	      case ">":
+                  return (Number(value) > Number(argument1));
+	      case "from":
+		  const op2 = cond.shift();
+		  const argument2 = cond.shift();
+		  if (op2 != "to" || !argument2)
+		  {
+		      console.warn(`Invalid TO in condition expression for feature type ${props.featuretype}:`, conditionString, tag, cond);
+		      return false;
+		  }
+
+		  return (Number(value) >= Number(argument1) && Number(value) <= Number(argument2));
+	      default:
+		  return false;
+	      }
+	  };
+
+          const tagMap = new Map();
+	  tagMap.set("name", name);
+	  
+	  if (feature2tags[props.featuretype]) {
+	      tags = feature2tags[props.featuretype];
+
+
+	      for (const tagDefinition of tags)
+	      {
+		  const match = tagDefinition.match(/^(?:\{(?<condition>.+)?\})?(?<tag>\w+?)=(?<value>.*)$/);
+		  if (!match || !match.groups || !match.groups.tag)
+		  {
+		      console.warn(`Invalid tag definitaion for feature type ${props.featuretype}:`, tagDefinition, match, match.groups);
+		  }
+		  
+		  if (tagIsPertinent(match.groups.tag, match.groups.condition, props)) {
+		      tagMap.set(match.groups.tag, match.groups.value);
+		  }
+	      }
+	  }
+
+	  tags = [];
+	  tagMap.forEach(function(value, key) { tags.push(`${key}=${value}`) } );
+	      
+	  return tags;
+      }
 
       // Set up base map
       var currentZoom = 8;
@@ -148,8 +220,7 @@
 		       const feature = features[idx];
 		       const props = feature.properties;
 		       const name = props2name(props);
-		       let tagList = [...(feature2tags[props.featuretype] || [])];
-		       tagList.push(`name=${name}`);
+		       let tagList = getTags(props, name);
 
 		       const coords = normalizeCoordinates(feature.geometry.coordinates);
 		       let url = 'http://127.0.0.1:8111/';
