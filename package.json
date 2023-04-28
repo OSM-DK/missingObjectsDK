@@ -21,7 +21,7 @@
     "geojson-validation": "^1.0.2",
     "leaflet-layergroup-conditional": "^1.0.0",
     "leaflet.heat": "^0.2.0",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "object-hash": "^2.2.0",
     "pg": "^8.7.1"
   },
