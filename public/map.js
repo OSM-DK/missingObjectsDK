@@ -61,6 +61,8 @@
 	      switch(operator) {
 	      case "unset":
 		  return !value;
+	      case "hasValue":
+		  return !!value;
 	      case "=":
 		  return `${value}` == argument1;
 	      case "<":
@@ -98,7 +100,14 @@
 		  }
 		  
 		  if (tagIsPertinent(match.groups.tag, match.groups.condition, props)) {
-		      tagMap.set(match.groups.tag, match.groups.value);
+		      let value = match.groups.value;
+		      let valueVariable = value.match(/^\$\{(?<value>\w+)\}$/);
+		      if (valueVariable && valueVariable.groups.value)
+		      {
+			  value = props[valueVariable.groups.value] || '';
+		      }
+		      
+		      tagMap.set(match.groups.tag, value);
 		  }
 	      }
 	  }
