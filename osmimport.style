@@ -97,10 +97,10 @@ node,way   barrier      text         linear
 node,way   bicycle      text         linear
 node,way   brand        text         linear
 node,way   bridge       text         linear
-node,way   boundary     text         linear
+node,way   boundary     text         polygon
 node,way   building     text         polygon
 node       capital      text         linear
-node,way   construction text         linear
+node,way   construction text         polygon
 node,way   covered      text         linear
 node,way   culvert      text         linear
 node,way   cutting      text         linear
