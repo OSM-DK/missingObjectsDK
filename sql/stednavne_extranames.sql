@@ -59,3 +59,13 @@ INSERT INTO stednavne_extranames (gml_id, name)
          s.andentopografitype = 'motorvejskryds'
      AND sn.name NOT LIKE 'Motorvejskryds %'
   );
+
+
+INSERT INTO stednavne_extranames (gml_id, name)
+  ( SELECT sn.gml_id, 'Haveforeningen ' || REGEXP_REPLACE(sn.name, ' +(A/H|H/F)$', '')
+    FROM stednavne_names sn
+    JOIN stednavne.bebyggelse s ON s.gml_id = sn.gml_id
+    WHERE
+         s.bebyggelsestype = 'kolonihave'
+     AND (sn.name LIKE '% H/F' OR sn.name LIKE '% A/H')
+  );

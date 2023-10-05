@@ -6,8 +6,9 @@ where bebyggelsestype in (
                       'sommerhusområdedel'
                      )
 and not exists (select 1
-                from osm_polygon p, osm_names n, stednavne_names sn
+                from osm_polygon p, osm_names n, stednavne_extranames sn
 		where (   p.tags -> 'landuse' in ('allotments')
+                       or p.tags -> 'place' in ('hamlet', 'village')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
@@ -15,8 +16,9 @@ and not exists (select 1
 		 AND ST_Distance(p.geog, s.geog) < 20 )
 
 and not exists (select 1
-                from osm_point p, osm_names n, stednavne_names sn
+                from osm_point p, osm_names n, stednavne_extranames sn
 		where (   p.tags -> 'landuse' in ('allotments')
+                       or p.tags -> 'place' in ('hamlet', 'village')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
