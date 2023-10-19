@@ -17,7 +17,7 @@ and not exists (select 1
 				  'village',
 				  'hamlet'
                                   )
-                      OR (p.tags -> 'place' = 'isolated_dwelling'
+                      OR (p.tags -> 'place' IN ('isolated_dwelling', 'farm' )
                           AND s.areal < 80000)
                  )
                  AND n.osm_id = p.osm_id
@@ -37,7 +37,7 @@ and not exists (select 1
 				  'village',
 				  'hamlet'
                                  )
-                     OR (p.tags -> 'place' = 'isolated_dwelling'
+                     OR (p.tags -> 'place' IN ('isolated_dwelling', 'farm')
                           AND s.areal < 80000)
                  )
                  AND n.osm_id = p.osm_id
