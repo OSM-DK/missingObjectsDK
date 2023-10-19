@@ -6,7 +6,7 @@ where bebyggelsestype in (
                      )
 and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
-		where p.tags -> 'place' in (
+		where (p.tags -> 'place' in (
                                   'city',
                                   'borough',
                                   'suburb',
@@ -17,13 +17,16 @@ and not exists (select 1
 				  'village',
 				  'hamlet'
                                   )
+                      OR (p.tags -> 'place' = 'isolated_dwelling'
+                          AND s.areal < 80000)
+                 )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
 		 AND ST_Distance(p.geog, s.geog) < 100 )
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
-		where p.tags -> 'place' in (
+		where (p.tags -> 'place' in (
                                   'city',
                                   'borough',
                                   'suburb',
@@ -34,6 +37,9 @@ and not exists (select 1
 				  'village',
 				  'hamlet'
                                  )
+                     OR (p.tags -> 'place' = 'isolated_dwelling'
+                          AND s.areal < 80000)
+                 )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
                  AND sn.gml_id = s.gml_id
