@@ -49,7 +49,7 @@ const missing = [];
 const pg = new Client({
   database: 'osm',
   host: '/var/run/postgresql',
-  port: '5435',
+  port: '5432',
   password: null
   });
 
