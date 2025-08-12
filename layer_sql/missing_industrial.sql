@@ -5,7 +5,7 @@ where bebyggelsestype in (
                      )
 and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'landuse' in ('industrial')
+		where (   p.tags -> 'landuse' in ('industrial', 'military')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name
@@ -14,7 +14,7 @@ and not exists (select 1
 
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
-		where (   p.tags -> 'landuse' in ('industrial')
+		where (   p.tags -> 'landuse' in ('industrial', 'military')
                       )
                  AND n.osm_id = p.osm_id
 		 AND n.name = sn.name

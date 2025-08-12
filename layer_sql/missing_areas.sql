@@ -8,7 +8,7 @@ where andentopografitype in (
 and not exists (select 1
                 from osm_polygon p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'landuse' in ('quarry')
-		       or p.tags -> 'amenity' in ('driving_school')
+		       or p.tags -> 'amenity' in ('driving_school', 'driver_training')
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'type' in ('site')
                       )
@@ -20,7 +20,7 @@ and not exists (select 1
 and not exists (select 1
                 from osm_point p, osm_names n, stednavne_names sn
 		where (   p.tags -> 'landuse' in ('quarry')
-		       or p.tags -> 'amenity' in ('driving_school')
+		       or p.tags -> 'amenity' in ('driving_school', 'driver_training')
                        or p.tags -> 'power' in ('plant', 'generator')
                        or p.tags -> 'type' in ('site')
                       )
