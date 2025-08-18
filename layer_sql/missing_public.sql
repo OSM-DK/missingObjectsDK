@@ -17,6 +17,7 @@ and not exists (select 1
 				   	           'social_facility',
 					           'townhall'
 					          )
+                       OR p.tags -> 'healthcare' in ( 'hospice' )
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
                  AND n.osm_id = p.osm_id
@@ -32,6 +33,7 @@ and not exists (select 1
 				   	           'social_facility',
 					           'townhall'
 					          )
+                       OR p.tags -> 'healthcare' in ( 'hospice' )	
                        OR p.tags -> 'emergency' in ( 'emergency_ward_entrance' )
                       )
                  AND n.osm_id = p.osm_id
