@@ -17,15 +17,15 @@
   },
   "homepage": "https://github.com/OSM-DK/missingObjectsDK#readme",
   "dependencies": {
-    "chart.js": "^3.6.1",
+    "chart.js": "^4.5.1",
     "geojson-validation": "^1.0.2",
     "leaflet-layergroup-conditional": "^1.0.0",
     "leaflet.heat": "^0.2.0",
-    "moment": "^2.29.4",
-    "object-hash": "^2.2.0",
-    "pg": "^8.7.1"
+    "moment": "^2.31.0",
+    "object-hash": "^3.0.0",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
-    "eslint": "^8.3.0"
+    "eslint": "^9.39.0"
   }
 }
